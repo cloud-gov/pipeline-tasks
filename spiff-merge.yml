@@ -1,0 +1,14 @@
+---
+platform: linux
+image: docker:///drnic/spiff
+
+inputs:
+  - name: pipelines
+
+run:
+  path: pipelines/scripts/spiff-merge
+
+params:
+  OUTPUT_FILE:
+  SOURCE_FILE:
+  MERGE_FILES:

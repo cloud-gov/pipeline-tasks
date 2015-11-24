@@ -1,0 +1,14 @@
+---
+platform: linux
+image: docker:///ubuntu#14.04
+
+inputs:
+  - name: pipelines
+
+run:
+  path: pipelines/scripts/decrypt
+
+params:
+  INPUT_FILE:
+  OUTPUT_FILE:
+  PASSPHRASE:
