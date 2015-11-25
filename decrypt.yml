@@ -6,7 +6,7 @@ inputs:
   - name: pipelines
 
 run:
-  path: pipelines/tasks/decrypt
+  path: pipelines/tasks/decrypt.sh
 
 params:
   INPUT_FILE:

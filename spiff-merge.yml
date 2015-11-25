@@ -6,7 +6,7 @@ inputs:
   - name: pipelines
 
 run:
-  path: pipelines/tasks/spiff-merge
+  path: pipelines/tasks/spiff-merge.sh
 
 params:
   OUTPUT_FILE:
