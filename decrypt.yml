@@ -1,6 +1,6 @@
 ---
 platform: linux
-image: docker:///ubuntu#14.04
+image: docker:///centos#7
 
 inputs:
   - name: pipelines
