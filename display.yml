@@ -1,0 +1,12 @@
+---
+platform: linux
+image: docker:///ubuntu#14.04
+
+inputs:
+  - name: pipelines
+
+run:
+  path: pipelines/tasks/display.sh
+
+params:
+  FILE:
