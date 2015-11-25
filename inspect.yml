@@ -6,7 +6,7 @@ inputs:
   - name: pipelines
 
 run:
-  path: pipelines/scripts/inspect
+  path: pipelines/tasks/inspect
 
 params:
   RESOURCE:
