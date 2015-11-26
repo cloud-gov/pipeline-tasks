@@ -1,6 +1,6 @@
 ---
 platform: linux
-image: docker:///drnic/spiff
+image: docker:///18fgsa/concourse-task
 
 inputs:
   - name: pipelines

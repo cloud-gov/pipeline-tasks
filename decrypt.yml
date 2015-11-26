@@ -1,6 +1,6 @@
 ---
 platform: linux
-image: docker:///centos#7
+image: docker:///18fgsa/concourse-task
 
 inputs:
   - name: pipelines
