@@ -11,12 +11,11 @@ if [ -z "$INPUT_DIR" ]; then
   exit 1
 fi
 
-touch "hello.txt"
-
 #
 # Temporary file for storing compressed directory
 #
-TEMP_FILE=./inflate-`date +"%m-%d-%Y-%T"`.tar.gz
+NOW=`date +"%m-%d-%Y-%T"`
+TEMP_FILE="inflate-$NOW.tar.gz"
 
 #
 # Inflate a given directory into a new one with symbolic links dereferenced
