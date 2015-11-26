@@ -22,4 +22,4 @@ fi
 #
 # Merge a source file with one or more merge files into an output file
 #
-spiff-merge-and-save "$OUTPUT_FILE" "$SOURCE_FILE" $MERGE_FILES
+spiff merge "$SOURCE_FILE" $MERGE_FILES > "$OUTPUT_FILE"
