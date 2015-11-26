@@ -21,4 +21,6 @@ TEMP_FILE="inflate-$NOW.tar.gz"
 # Inflate a given directory into a new one with symbolic links dereferenced
 #
 tar -czhf "$TEMP_FILE" "$INPUT_DIR"
+
+mkdir -p "extract"
 tar -xzf "$TEMP_FILE" -C .
