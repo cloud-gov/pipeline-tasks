@@ -16,7 +16,7 @@ touch "hello.txt"
 #
 # Temporary file for storing compressed directory
 #
-TEMP_FILE=inflate-`date +"%m-%d-%Y-%T"`.tar.gz
+TEMP_FILE=./inflate-`date +"%m-%d-%Y-%T"`.tar.gz
 
 #
 # Inflate a given directory into a new one with symbolic links dereferenced
