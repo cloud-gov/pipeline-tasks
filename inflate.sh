@@ -23,4 +23,4 @@ TEMP_FILE="inflate-$NOW.tar.gz"
 tar -czhf "$TEMP_FILE" "$INPUT_DIR"
 
 mkdir -p "extract"
-tar -xzf "$TEMP_FILE" -C .
+tar -xzf "$TEMP_FILE" -C "extract"
