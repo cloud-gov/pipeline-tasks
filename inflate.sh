@@ -14,7 +14,7 @@ fi
 #
 # Temporary file for storing compressed directory
 #
-NOW=`date +"%m-%d-%Y-%T"`
+NOW=`date +"%m-%d-%Y-%H-%M-%S"`
 TEMP_FILE="inflate-$NOW.tar.gz"
 
 #
