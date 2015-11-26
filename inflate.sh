@@ -23,4 +23,7 @@ TEMP_FILE="inflate-$NOW.tar.gz"
 tar -C "$INPUT_DIR" -czhf "$TEMP_FILE" .
 tar -xzf "$TEMP_FILE"
 
+#
+# Cleaning up the temp file
+#
 rm -f "$TEMP_FILE"
