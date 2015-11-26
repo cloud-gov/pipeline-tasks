@@ -15,6 +15,9 @@ fi
   # exit 1
 #fi
 
+echo "`ls -al .`"
+echo "`pwd`"
+
 #
 # Temporary file for storing compressed directory
 #
