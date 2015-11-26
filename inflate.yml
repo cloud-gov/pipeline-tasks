@@ -10,4 +10,4 @@ run:
 
 params:
   INPUT_DIR:
-  OUTPUT_DIR:
+#  OUTPUT_DIR:
