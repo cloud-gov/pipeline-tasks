@@ -21,6 +21,6 @@ TEMP_FILE=inflate-`date +"%m-%d-%Y-%T"`.tar.gz
 #
 # Inflate a given directory into a new one with symbolic links dereferenced
 #
-tar -czh "$INPUT_DIR" > "$TEMP_FILE"
+tar -czhf "$TEMP_FILE" "$INPUT_DIR"
 tar -xzf "$TEMP_FILE"
 rm -f "$TEMP_FILE"
