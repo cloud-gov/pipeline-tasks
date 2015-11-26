@@ -5,10 +5,6 @@ image: docker:///ubuntu#14.04
 inputs:
   - name: pipelines
 
-outputs:
-  - name: inflated-directory
-    path: inflated-dir/
-
 run:
   path: pipelines/tasks/inflate.sh
 
