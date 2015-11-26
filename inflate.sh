@@ -22,4 +22,3 @@ TEMP_FILE="inflate-$NOW.tar.gz"
 #
 tar -czhf "$TEMP_FILE" "$INPUT_DIR"
 tar -xzf "$TEMP_FILE"
-rm -f "$TEMP_FILE"
