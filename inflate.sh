@@ -16,11 +16,16 @@ fi
 #
 NOW=`date +"%m-%d-%Y-%H-%M-%S"`
 TEMP_FILE="inflate-$NOW.tar.gz"
+OUTPUT_DIR="extract"
 
 #
 # Inflate a given directory into a new one with symbolic links dereferenced
 #
 tar -czhf "$TEMP_FILE" "$INPUT_DIR"
 
-mkdir -p "extract"
-tar -xzf "$TEMP_FILE" -C "extract"
+mkdir -p "$OUTPUT_DIR"
+tar -xzf "$TEMP_FILE" -C "$OUTPUT_DIR"
+mv "$OUTPUT_DIR"/* .
+
+rm -Rf "$OUTPUT_DIR"
+rm -f "$TEMP_FILE"
