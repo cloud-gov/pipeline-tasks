@@ -11,6 +11,8 @@ if [ -z "$INPUT_DIR" ]; then
   exit 1
 fi
 
+touch "hello.txt"
+
 #
 # Temporary file for storing compressed directory
 #
