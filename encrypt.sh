@@ -22,4 +22,4 @@ fi
 #
 # Encrypt input file into output file given passphrase
 #
-openssl enc -aes-256-cbc -a -in "$INPUT_FILE" -out "$OUTPUT_FILE" -pass "pass:$PASSPHRASE"
+openssl enc -aes-256-cbc -a -in "$INPUT_FILE" -out "$OUTPUT_FILE" -pass "pass:$PASSPHRASE" 2>&1 >/dev/null
