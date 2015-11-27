@@ -1,0 +1,13 @@
+---
+platform: linux
+image: docker:///18fgsa/concourse-task
+
+inputs:
+  - name: pipelines
+
+run:
+  path: pipelines/tasks/write_file.sh
+
+params:
+  CONTENT:
+  FILE_NAME:
