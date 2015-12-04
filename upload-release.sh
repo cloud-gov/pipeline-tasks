@@ -34,6 +34,7 @@ fi
 #
 # Target BOSH
 #
+echo "Uploading $RELEASE_NAME @ `cat $RELEASE_VERSION_FILE`: `cat $RELEASE_URL_FILE`"
 bosh -n target $BOSH_TARGET
 bosh -n login $BOSH_USERNAME $BOSH_PASSWORD
 bosh -n upload release `cat $RELEASE_URL_FILE` --name $RELEASE_NAME --version `cat $RELEASE_VERSION_FILE`
