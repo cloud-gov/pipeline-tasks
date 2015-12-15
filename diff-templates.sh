@@ -30,7 +30,7 @@ fi
 # Compare the templates with a ruby script
 for ours in `ls $TEMPLATES_DIR/*.yml`
 do
-  if [[ $ours != *"secret"* ]]; then
+  if [ $ours != *"secret"* ]; then
     FILE=${ours##*/}
     if [[ -f "$SCRIPTPATH/cf-release/templates/$FILE" ]]; then
         ruby $SCRIPTPATH/diff-templates.rb $SCRIPTPATH/cf-release/templates/$FILE $TEMPLATES_DIR/$FILE
