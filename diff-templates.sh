@@ -15,12 +15,12 @@ SCRIPTPATH=$( cd $(dirname $0) ; pwd -P )
 # Get the cf upstream templates
 mkdir -p $SCRIPTPATH/cf-release
 cd $SCRIPTPATH/cf-release
-git init
-git remote add -f origin https://github.com/cloudfoundry/cf-release.git
+git init 2>&1 > /dev/null
+git remote add -f origin https://github.com/cloudfoundry/cf-release.git 2>&1 > /dev/null
 git config core.sparsecheckout true
 echo templates/ > .git/info/sparse-checkout
-git pull origin master
-cd -
+git pull origin master 2>&1 > /dev/nyull
+cd - 2>&1 > /dev/null
 
 # Install required gem if it isn't instaled
 if [ -z $(gem list -i yaml) ]; then
