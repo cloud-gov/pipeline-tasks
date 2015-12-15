@@ -1,0 +1,12 @@
+---
+platform: linux
+image: docker:///18fgsa/concourse-task
+
+inputs:
+  - name: pipelines
+
+run:
+  path: pipelines/tasks/diff-templates.sh
+
+params:
+  TEMPLATES_DIR:
