@@ -30,7 +30,7 @@ end
 
 diff = compare_yaml_hash(first, second)
 if diff.to_s.strip.length != 0
-    puts "Comparing #{l2} to upstream #{l1}:"
+    puts "Comparing #{l2} to upstream:"
     puts diff
 end
 
