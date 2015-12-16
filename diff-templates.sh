@@ -22,7 +22,7 @@ echo templates/ > .git/info/sparse-checkout
 git pull origin master --quiet
 cd - 2>&1 > /dev/null
 
-# Install required gem if it isn't instaled
+# Install required gem if not installed
 if [ -z $(gem list -i yaml) ]; then
   gem install yaml --no-ri --no-rdoc 2>&1 > /dev/null
 fi
@@ -30,7 +30,8 @@ fi
 # Compare the templates with a ruby script
 for ours in `ls $TEMPLATES_DIR/*.yml`
 do
-  if [ $ours != *"secret"* ]; then
+  # ignore any "secret" files
+  if [ "${ours/secret//}" = "$ours" ]; then
     FILE=${ours##*/}
     if [ -f "$SCRIPTPATH/cf-release/templates/$FILE" ]; then
         ruby $SCRIPTPATH/diff-templates.rb $SCRIPTPATH/cf-release/templates/$FILE $TEMPLATES_DIR/$FILE
