@@ -13,14 +13,13 @@ fi
 SCRIPTPATH=$( cd $(dirname $0) ; pwd -P )
 
 # Get the cf upstream templates
-mkdir -p $SCRIPTPATH/cf-release
-cd $SCRIPTPATH/cf-release
-git init 2>&1 > /dev/null
-git remote add origin https://github.com/cloudfoundry/cf-release.git
-git config core.sparsecheckout true
-echo templates/ > .git/info/sparse-checkout
-git pull origin master --quiet
-cd - 2>&1 > /dev/null
+UPSTREAM_DIR=$SCRIPTPATH/cf-release
+mkdir -p $UPSTREAM_DIR
+git -C $UPSTREAM_DIR init --quiet
+git -C $UPSTREAM_DIR remote add origin https://github.com/cloudfoundry/cf-release.git
+git -C $UPSTREAM_DIR config core.sparsecheckout true
+echo templates/ > $UPSTREAM_DIR/.git/info/sparse-checkout
+git -C $UPSTREAM_DIR pull origin master --quiet
 
 # Install required gem if not installed
 if [ -z $(gem list -i yaml) ]; then
@@ -32,9 +31,10 @@ for ours in `ls $TEMPLATES_DIR/*.yml`
 do
   # ignore any "secret" files
   if [ "${ours/secret//}" = "$ours" ]; then
+    # Get just the filename
     FILE=${ours##*/}
     if [ -f "$SCRIPTPATH/cf-release/templates/$FILE" ]; then
-        ruby $SCRIPTPATH/diff-templates.rb $SCRIPTPATH/cf-release/templates/$FILE $TEMPLATES_DIR/$FILE
+        ruby $SCRIPTPATH/diff-templates.rb $UPSTREAM_DIR/templates/$FILE $TEMPLATES_DIR/$FILE
         echo
     else
         echo "Not found in cf-release/templates: $FILE"
