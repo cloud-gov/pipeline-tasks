@@ -9,19 +9,26 @@ def compare_yaml_hash(cf1, cf2, context = [], diff = "")
   cf1.each do |key, value|
 
     unless cf2.key?(key)
-      diff << "  MISSING key : #{context.join(".")}.#{key}\n"
+      diff << "  MISSING - key : #{context.join(".")}.#{key}\n"
       next
     end
 
     value2 = cf2[key]
     if (value.class != value2.class)
-      diff << "  Key value type mismatch : #{context.join(".")}.#{key}\n"
+      diff << "  VERIFY - Key value type mismatch : #{context.join(".")}.#{key}\n"
       next
     end
 
     if value.is_a?(Hash)
       compare_yaml_hash(value, value2, (context + [key]), diff)
       next
+    end
+
+    if value.is_a?(Array) && value2.is_a?(Array)
+      if value.length > value2.length
+        diff << "  CAUTION - Array length mismatch. Missing items? : #{context.join(".")}.#{key}\n"
+        next
+      end
     end
 
   end
