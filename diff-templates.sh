@@ -27,10 +27,11 @@ if [ -z $(gem list -i yaml) ]; then
 fi
 
 # Compare the templates with a ruby script
+nomatch () { case "$2" in $1) return 1 ;; *) return 0 ;; esac ; }
 for ours in `ls $TEMPLATES_DIR/*.yml`
 do
   # ignore any "secret" files
-  if [ "${ours/secret//}" = "$ours" ]; then
+  if nomatch '*secret*' "$ours"; then
     # Get just the filename
     FILE=${ours##*/}
     if [ -f "$SCRIPTPATH/cf-release/templates/$FILE" ]; then
