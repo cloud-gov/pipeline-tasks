@@ -18,4 +18,4 @@ fi
 #
 # Render content into a file
 #
-cat "$CONTENT" > "$FILE_NAME"
+echo "$CONTENT" > "$FILE_NAME"
