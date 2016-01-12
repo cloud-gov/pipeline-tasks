@@ -33,7 +33,10 @@ fi
 #
 # Run the CF smoke test errand for the appropriate deployment
 #
-bosh -n target $BOSH_TARGET --ca-cert $BOSH_CACERT
+cat <<EOF > rootca.pem
+$CONTENT
+EOF
+bosh -n target $BOSH_TARGET --ca-cert rootca.pem
 echo -n \"$BOSH_USER\n$BOSH_PASSWORD\" | bosh login 1>/dev/null
 bosh -n download manifest $BOSH_DEPLOYMENT_NAME ${BOSH_DEPLOYMENT_NAME}.yml
 bosh -n deployment ${BOSH_DEPLOYMENT_NAME}.yml
