@@ -34,7 +34,7 @@ fi
 # Run the CF smoke test errand for the appropriate deployment
 #
 cat <<EOF > rootca.pem
-$CONTENT
+$BOSH_CACERT
 EOF
 bosh -n target $BOSH_TARGET --ca-cert rootca.pem
 echo -n \"$BOSH_USER\n$BOSH_PASSWORD\" | bosh login 1>/dev/null
