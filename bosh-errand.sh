@@ -37,7 +37,10 @@ cat <<EOF > rootca.pem
 $BOSH_CACERT
 EOF
 bosh -n target $BOSH_TARGET --ca-cert rootca.pem
-echo -n "$BOSH_USER\n$BOSH_PASSWORD" | bosh login 1>/dev/null
+bosh login <<EOF 1>/dev/null
+$BOSH_USERNAME
+$BOSH_PASSWORD
+EOF
 bosh -n download manifest $BOSH_DEPLOYMENT_NAME ${BOSH_DEPLOYMENT_NAME}.yml
 bosh -n deployment ${BOSH_DEPLOYMENT_NAME}.yml
 bosh -n run errand $BOSH_ERRAND
