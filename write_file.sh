@@ -18,4 +18,7 @@ fi
 #
 # Render content into a file
 #
-echo "$CONTENT" > "$FILE_NAME"
+cat <<EOF > "$FILE_NAME"
+$CONTENT
+EOF
+
