@@ -6,10 +6,10 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
-  - name: pipelines
+  - name: pipeline-tasks
 
 run:
-  path: pipelines/tasks/display.sh
+  path: pipeline-tasks/display.sh
 
 params:
   FILE:

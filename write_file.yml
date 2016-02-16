@@ -6,11 +6,11 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
-  - name: pipelines
+  - name: pipeline-tasks
 outputs:
   - name: write_file
 run:
-  path: pipelines/tasks/write_file.sh
+  path: pipeline-tasks/write_file.sh
 
 params:
   CONTENT:

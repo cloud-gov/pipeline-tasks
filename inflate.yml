@@ -6,11 +6,11 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
-  - name: pipelines
+  - name: pipeline-tasks
 outputs:
   - name: inflate
 run:
-  path: pipelines/tasks/inflate.sh
+  path: pipeline-tasks/inflate.sh
 
 params:
   INPUT_DIR:
