@@ -6,12 +6,12 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
-  - name: pipelines
+  - name: pipeline-tasks
 outputs:
   - name: bosh-errand
 
 run:
-  path: pipelines/tasks/bosh-errand.sh
+  path: pipeline-tasks/bosh-errand.sh
 
 params:
   BOSH_TARGET:

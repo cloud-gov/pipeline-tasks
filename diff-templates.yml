@@ -6,11 +6,11 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
-  - name: pipelines
+  - name: pipeline-tasks
 outputs:
   - name: diff-templates
 run:
-  path: pipelines/tasks/diff-templates.sh
+  path: pipeline-tasks/diff-templates.sh
 
 params:
   TEMPLATES_DIR:
