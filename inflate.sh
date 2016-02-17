@@ -21,7 +21,7 @@ TEMP_FILE="inflate-$NOW.tar.gz"
 # Inflate a given directory into a new one with symbolic links dereferenced
 #
 tar -C "$INPUT_DIR" -czhf "$TEMP_FILE" .
-tar -xzf "$TEMP_FILE"
+tar -C inflate -xzf "$TEMP_FILE"
 
 #
 # Cleaning up the temp file
