@@ -1,0 +1,19 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: 18fgsa/concourse-task
+
+inputs:
+  - name: pipeline-tasks
+  - name: release-git-repo
+  - name: final-builds-dir-tarball
+  - name: releases-dir-tarball
+outputs:
+  - name: finalized-release
+run:
+  path: pipeline-tasks/finalize-bosh-release.sh
+
+params:
+  PRIVATE_YML:
