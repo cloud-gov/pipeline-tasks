@@ -36,7 +36,7 @@ fi
 cat <<EOF > rootca.pem
 $BOSH_CACERT
 EOF
-bosh -n target $BOSH_TARGET --ca-cert rootca.pem
+bosh --ca-cert rootca.pem -n target $BOSH_TARGET
 bosh login <<EOF 1>/dev/null
 $BOSH_USERNAME
 $BOSH_PASSWORD
