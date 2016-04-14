@@ -31,12 +31,9 @@ if [ -z "$BOSH_CACERT" ]; then
   exit 1
 fi
 #
-# Run the CF smoke test errand for the appropriate deployment
+# Run the errand for the appropriate deployment
 #
-cat <<EOF > rootca.pem
-$BOSH_CACERT
-EOF
-bosh --ca-cert rootca.pem -n target $BOSH_TARGET
+bosh --ca-cert $BOSH_CACERT -n target $BOSH_TARGET
 bosh login <<EOF 1>/dev/null
 $BOSH_USERNAME
 $BOSH_PASSWORD

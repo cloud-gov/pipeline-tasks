@@ -7,6 +7,7 @@ image_resource:
 
 inputs:
   - name: pipeline-tasks
+  - name: common
 outputs:
   - name: bosh-errand
 
