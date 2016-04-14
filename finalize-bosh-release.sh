@@ -20,6 +20,12 @@ cat <<EOF > "config/private.yml"
 $PRIVATE_YML_CONTENT
 EOF
 
+if [ -n "$FINAL_YML_CONTENT" ]; then
+cat <<EOF > "config/final.yml"
+$FINAL_YML_CONTENT
+EOF
+fi
+
 bosh -n create release --force --final --with-tarball
 
 mv releases/${RELEASE_NAME}/*.tgz ../finalized-release

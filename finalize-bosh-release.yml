@@ -16,4 +16,5 @@ run:
   path: pipeline-tasks/finalize-bosh-release.sh
 
 params:
-  PRIVATE_YML:
+  PRIVATE_YML_CONTENT:
+  FINAL_YML_CONTENT:
