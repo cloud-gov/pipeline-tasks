@@ -8,7 +8,7 @@ if [ -z "$STACK_NAME" ]; then
   exit 1
 fi
 
-if [ -z "$S3_TFSTATE_BUCKET"]; then
+if [ -z "$S3_TFSTATE_BUCKET" ]; then
   echo "must specify \$S3_TFSTATE_BUCKET" >&2
   exit 1
 fi
