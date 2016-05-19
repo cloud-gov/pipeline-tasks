@@ -7,16 +7,14 @@ image_resource:
 
 inputs:
   - name: pipeline-tasks
-  - name: terraform-state
   - name: terraform-templates
-outputs:
-  - name: terraform-result
 
 run:
   path: pipeline-tasks/terraform-apply.sh
 
 params:
-  STATE_FILE:
-  TF_VAR_ACCESS_KEY_ID:
-  TF_VAR_SECRET_ACCESS_KEY:
-  TF_VAR_DEFAULT_REGION:
+  STACK_NAME:
+  S3_TFSTATE_BUCKET:
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
+  AWS_DEFAULT_REGION:
