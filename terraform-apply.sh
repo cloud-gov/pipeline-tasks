@@ -33,6 +33,10 @@ terraform remote config \
   -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
   -backend-config="key=${STACK_NAME}/terraform.tfstate"
 
+terraform get \
+  -update \
+  terraform-templates
+
 terraform apply \
   -refresh=true \
   terraform-templates
