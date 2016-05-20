@@ -28,6 +28,13 @@ if [ -z "$AWS_DEFAULT_REGION" ]; then
   exit 1
 fi
 
+DIR="terraform-templates"
+
+if [ -e "$TEMPLATE_SUBDIR" ]; then
+  DIR="$DIR/$TEMPLATE_SUBDIR"
+fi
+
+
 terraform remote config \
   -backend=s3 \
   -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
@@ -35,10 +42,10 @@ terraform remote config \
 
 terraform get \
   -update \
-  terraform-templates
+  $DIR
 
 terraform destroy \
   -refresh=true \
   -force \
-  terraform-templates
+  $DIR
 
