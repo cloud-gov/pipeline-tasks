@@ -30,7 +30,7 @@ fi
 
 DIR="terraform-templates"
 
-if [ -e "$TEMPLATE_SUBDIR" ]; then
+if [ -n "$TEMPLATE_SUBDIR" ]; then
   DIR="$DIR/$TEMPLATE_SUBDIR"
 fi
 
