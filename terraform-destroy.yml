@@ -8,6 +8,8 @@ image_resource:
 inputs:
   - name: pipeline-tasks
   - name: terraform-templates
+outputs:
+  - name: terraform-state
 
 run:
   path: pipeline-tasks/terraform-destroy.sh
