@@ -13,19 +13,13 @@ if [ -z "$S3_TFSTATE_BUCKET" ]; then
   exit 1
 fi
 
-if [ -z "$AWS_ACCESS_KEY_ID" ]; then
-  echo "must specify \$AWS_ACCESS_KEY_ID" >&2
-  exit 1
-fi
-
-if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
-  echo "must specify \$AWS_SECRET_ACCESS_KEY" >&2
-  exit 1
-fi
-
 if [ -z "$AWS_DEFAULT_REGION" ]; then
   echo "must specify \$AWS_DEFAULT_REGION" >&2
   exit 1
+fi
+
+if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+  echo "AWS credentials not found in params; attempting to use Instance Profile." >&2
 fi
 
 DIR="terraform-templates"
