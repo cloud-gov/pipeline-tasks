@@ -41,3 +41,4 @@ terraform apply \
   -refresh=true \
   $DIR
 
+cp .terraform/terraform* terraform-state

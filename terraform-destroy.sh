@@ -43,3 +43,4 @@ terraform destroy \
   -force \
   $DIR
 
+cp .terraform/terraform* terraform-state
