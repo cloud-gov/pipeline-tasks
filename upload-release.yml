@@ -1,0 +1,18 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: 18fgsa/concourse-task
+
+inputs:
+  - name: pipeline-tasks
+  - name: release
+  - name: certificate
+run:
+  path: pipeline-tasks/upload-release.sh
+
+params:
+  BOSH_USERNAME:
+  BOSH_PASSWORD:
+  BOSH_TARGET:
