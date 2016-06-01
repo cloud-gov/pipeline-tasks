@@ -19,7 +19,10 @@ fi
 
 bosh --ca-cert certificate/boshCA.crt -n target $BOSH_TARGET
 
-bosh login $BOSH_USERNAME $BOSH_PASSWORD
+bosh login <<EOF 1>/dev/null
+$BOSH_USERNAME
+$BOSH_PASSWORD
+EOF
 
 for r in release/*.tgz; do
 	bosh upload release $r
