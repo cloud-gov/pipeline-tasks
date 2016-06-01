@@ -2,6 +2,11 @@
 
 set -e
 
+if [ -z "$BOSH_CERT" ]; then
+  echo "must specify \$BOSH_CERT" >&2
+  exit 1
+fi
+
 if [ -z "$BOSH_TARGET" ]; then
   echo "must specify \$BOSH_TARGET" >&2
   exit 1
@@ -17,7 +22,7 @@ if [ -z "$BOSH_PASSWORD" ]; then
   exit 1
 fi
 
-bosh --ca-cert certificate/boshCA.crt -n target $BOSH_TARGET
+bosh --ca-cert certificate/$BOSH_CERT -n target $BOSH_TARGET
 
 bosh login <<EOF 1>/dev/null
 $BOSH_USERNAME
