@@ -22,7 +22,7 @@ if [ -z "$BOSH_PASSWORD" ]; then
   exit 1
 fi
 
-bosh --ca-cert $BOSH_CERT -n target $BOSH_TARGET
+bosh --ca-cert certificate/$BOSH_CERT -n target $BOSH_TARGET
 
 bosh login <<EOF 1>/dev/null
 $BOSH_USERNAME
