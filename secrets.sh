@@ -6,8 +6,8 @@ USAGE="Usage: secrets.sh ARGUMENTS
 This script needs to be run in a cg-deploy-* repo
 
 Operations (only use 1):
-\t-d, --decrypt\tDecrypt secrets for your current
-\t-e, --encrypt\tDecrypt secrets for your current
+\t-d, --decrypt\tDecrypt secrets
+\t-e, --encrypt\tEncrypt secrets
 \t-c, --check\tDo a healthcheck to make sure the repo is setup correctly
 \t-h, --help\tThis help will print
 
@@ -147,14 +147,14 @@ fi
 
 if [ ! -f "ci/credentials.yml" ]; then
   echo "Populated credentials are needed to use secrets"
-  read -p "Download credentials form S3 [Y/N]?" -n 1 -r
+  read -p "Download credentials from S3 [Y/N]?" -n 1 -r
   echo
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo "ci/credentials.yml cannot be found, aborting."
     exit 1
   else
     if [ -z ${CONCOURSE_BUCKET+x} ]; then
-      echo "CONCOURSE_BUCKET was not passed, so we cannot automatically 
+      echo "CONCOURSE_BUCKET was not passed, so we cannot automatically
 download credentials.  Execute with: CONCOURSE_BUCKET=bucket ${0}"
       exit 1
     else
@@ -207,7 +207,7 @@ if [ ${ENCRYPT} -eq 1 ]; then
   fi
 
   ${PIPELINE_TASKS}/encrypt.sh
-  aws s3 cp ${ENCRYPTED_FILENAME} s3://${BUCKET}/${ENCRYPTED_FILENAME} 
+  aws s3 cp ${ENCRYPTED_FILENAME} s3://${BUCKET}/${ENCRYPTED_FILENAME}
 elif [ ${DECRYPT} -eq 1 ]; then
   aws s3 cp s3://${BUCKET}/${ENCRYPTED_FILENAME} ${ENCRYPTED_FILENAME}
   export INPUT_FILE=${ENCRYPTED_FILENAME}
