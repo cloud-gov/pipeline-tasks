@@ -30,6 +30,7 @@ fi
 
 terraform remote config \
   -backend=s3 \
+  -backend-config="encrypt=true" \
   -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
   -backend-config="key=${STACK_NAME}/terraform.tfstate"
 
