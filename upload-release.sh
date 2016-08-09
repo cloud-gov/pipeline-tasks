@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -e -x
 
 if [ -z "$BOSH_TARGET" ]; then
   echo "must specify \$BOSH_TARGET" >&2
