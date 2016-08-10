@@ -28,6 +28,9 @@ $BOSH_USERNAME
 $BOSH_PASSWORD
 EOF
 
+# Avoid "negative argument" progressbar error
+export COLUMNS=120
+
 for r in release/*.tgz; do
   bosh upload release $r
 done
