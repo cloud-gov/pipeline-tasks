@@ -1,0 +1,13 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: governmentpaas/cf-cli
+
+inputs:
+- name: pipeline-tasks
+
+run:
+  path: pipeline-tasks/register-service-broker.sh
