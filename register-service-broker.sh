@@ -16,8 +16,8 @@ fi
 
 # Enable access to service plans
 ARGS=()
-if [ -n "$SERVICE_ORGANIZATION" ]; ARGS+=("-o", "$SERVICE_ORGANIZATION"); fi
-if [ -n "$SERVICE_PLAN" ]; ARGS+=("-p", "$SERVICE_PLAN"); fi
+if [ -n "$SERVICE_ORGANIZATION" ]; then ARGS+=("-o" "$SERVICE_ORGANIZATION"); fi
+if [ -n "$SERVICE_PLAN" ]; then ARGS+=("-p" "$SERVICE_PLAN"); fi
 for SERVICE_NAME in $(echo $SERVICE_NAMES); do
   cf enable-service-access $SERVICE_NAME "${ARGS[@]}"
 done
