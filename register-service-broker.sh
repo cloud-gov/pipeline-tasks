@@ -19,5 +19,8 @@ ARGS=()
 if [ -n "$SERVICE_ORGANIZATION" ]; then ARGS+=("-o" "$SERVICE_ORGANIZATION"); fi
 if [ -n "$SERVICE_PLAN" ]; then ARGS+=("-p" "$SERVICE_PLAN"); fi
 for SERVICE_NAME in $(echo $SERVICE_NAMES); do
+  # Must disable services prior to enabling, otherwise enable will fail if already exists
+  # https://github.com/cloudfoundry/cli/issues/939 
+  cf disable-service-access $SERVICE_NAME "${ARGS[@]}"
   cf enable-service-access $SERVICE_NAME "${ARGS[@]}"
 done
