@@ -13,6 +13,12 @@ if [ -z "$S3_TFSTATE_BUCKET" ]; then
   exit 1
 fi
 
+if [ "$TERRAFORM_ACTION" != "plan" ] && \
+    [ "$TERRAFORM_ACTION" != "apply" ]; then
+  echo 'must set $TERRAFORM_ACTION to "plan" or "apply"' >&2
+  exit 1
+fi
+
 if [ -z "$AWS_DEFAULT_REGION" ]; then
   echo "must specify \$AWS_DEFAULT_REGION" >&2
   exit 1
@@ -38,7 +44,7 @@ terraform get \
   -update \
   $DIR
 
-terraform apply \
+terraform $TERRAFORM_ACTION \
   -refresh=true \
   $DIR
 
