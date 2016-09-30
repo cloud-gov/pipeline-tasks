@@ -2,9 +2,13 @@
 
 set -e
 set -u
+set -x
 
 # Authenticate
-cf login -a $CF_API_URL -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORGANIZATION -s $CF_SPACE
+(
+  set +x
+  cf login -a $CF_API_URL -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORGANIZATION -s $CF_SPACE
+)
 
 # Get service broker URL
 BROKER_URL=https://$(cf app $BROKER_NAME | grep urls: | sed 's/urls: //')
