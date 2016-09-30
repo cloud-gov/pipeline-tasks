@@ -2,13 +2,9 @@
 
 set -e
 set -u
-set -x
 
 # Authenticate
-(
-  set +x
-  cf login -a $CF_API_URL -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORGANIZATION -s $CF_SPACE
-)
+cf login -a $CF_API_URL -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORGANIZATION -s $CF_SPACE
 
 # Get service broker URL
 BROKER_URL=https://$(cf app $BROKER_NAME | grep urls: | sed 's/urls: //')
@@ -17,6 +13,8 @@ BROKER_URL=https://$(cf app $BROKER_NAME | grep urls: | sed 's/urls: //')
 if ! cf create-service-broker $BROKER_NAME $AUTH_USER $AUTH_PASS $BROKER_URL; then
   cf update-service-broker $BROKER_NAME $AUTH_USER $AUTH_PASS $BROKER_URL
 fi
+
+set -x
 
 # Enable access to service plans
 # Services should be a set of "$name" or "$name:$plan" values, such as
