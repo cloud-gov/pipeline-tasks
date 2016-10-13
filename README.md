@@ -31,6 +31,26 @@ pipeline-tasks-git-branch: master
 ### finalize-bosh-release
 ### inspect
 ### spiff-merge
+### spruce-merge
+
+Uses `spruce` to merge multiple manifests together.
+
+Requires:
+    - `$OUTPUT_FILE`: The output file after all merged manifests.
+    - `$MERGE_FILES`: A space-delimited list of files to merge using `spruce`.
+
+Outputs:
+    - spurce-merge/file.yml
+
+Example:
+```yml
+    - task: spruce-merge
+      file: pipeline-tasks/spruce-merge.yml
+      params:
+        OUTPUT_FILE: out-manifest.yml
+        MERGE_FILES: in-mainfest1.yml in-manifest2.yml
+```
+
 ### terraform-apply
 ### terraform-destroy
 ### terraform-state-to-yaml
