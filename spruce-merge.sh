@@ -10,10 +10,6 @@ if [ -z "$OUTPUT_FILE" ]; then
   echo "must specify \$OUTPUT_FILE" >&2
   exit 1
 fi
-if [ -z "$SOURCE_FILE" ]; then
-  echo "must specify \$SOURCE_FILE" >&2
-  exit 1
-fi
 if [ -z "$MERGE_FILES" ]; then
   echo "must specify \$MERGE_FILES" >&2
   exit 1
