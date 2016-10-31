@@ -2,13 +2,9 @@
 
 set -e
 set -u
-set -x
 
 # Authenticate
-(
-  set +x
-  cf login -a $CF_API_URL -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORGANIZATION -s $CF_SPACE
-)
+cf login -a $CF_API_URL -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORGANIZATION -s $CF_SPACE
 
 # Get service broker URL
 BROKER_URL=https://$(cf app $BROKER_NAME | grep urls: | sed 's/urls: //')
@@ -24,13 +20,13 @@ set -x
 # Services should be a set of "$name" or "$name:$plan" values, such as
 # "redis28-multinode mongodb30-multinode:persistent"
 for SERVICE in $(echo "$SERVICES"); do
-  ARGS=()
   SERVICE_NAME=$(echo "${SERVICE}:" | cut -d':' -f1)
   SERVICE_PLAN=$(echo "${SERVICE}:" | cut -d':' -f2)
-  if [ -n "$SERVICE_ORGANIZATION" ]; then ARGS+=("-o" "$SERVICE_ORGANIZATION"); fi
-  if [ -n "$SERVICE_PLAN" ]; then ARGS+=("-p" "$SERVICE_PLAN"); fi
+  ARGS=("${SERVICE_NAME}")
+  if [ -n "${SERVICE_ORGANIZATION:-}" ]; then ARGS+=("-o" "${SERVICE_ORGANIZATION}"); fi
+  if [ -n "${SERVICE_PLAN}" ]; then ARGS+=("-p" "${SERVICE_PLAN}"); fi
   # Must disable services prior to enabling, otherwise enable will fail if already exists
   # https://github.com/cloudfoundry/cli/issues/939
-  cf disable-service-access $SERVICE_NAME "${ARGS[@]}"
-  cf enable-service-access $SERVICE_NAME "${ARGS[@]}"
+  cf disable-service-access "${ARGS[@]}"
+  cf enable-service-access "${ARGS[@]}"
 done
