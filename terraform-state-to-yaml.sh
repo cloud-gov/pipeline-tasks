@@ -18,4 +18,4 @@ if [ -z $(gem list -i json) ]; then
   gem install json --no-ri --no-rdoc 2>&1 > /dev/null
 fi
 
-cat $STATE_FILE | $SCRIPTPATH/terraform-state-to-yaml.rb > terraform-yaml/state.yml
+cat terraform-state/$STATE_FILE | $SCRIPTPATH/terraform-state-to-yaml.rb > terraform-yaml/state.yml
