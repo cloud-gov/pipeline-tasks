@@ -6,11 +6,12 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
-  - name: pipeline-tasks
+- name: pipeline-tasks
+- name: terraform-state
 outputs:
-  - name: terraform-yaml
+- name: terraform-yaml
 run:
-  path: pipeline-tasks/terraform-state-yaml.sh
+  path: pipeline-tasks/terraform-state-to-yaml.sh
 
 params:
   STATE_FILE:
