@@ -1,15 +1,7 @@
 #!/bin/bash
 # vim: set ft=sh
 
-set -e
-
-#
-# A little environment validation
-#
-if [ -z "$PRIVATE_YML_CONTENT" ]; then
-  echo "must specify \$PRIVATE_YML_CONTENT" >&2
-  exit 1
-fi
+set -e -u
 
 cd release-git-repo
 RELEASE_NAME=`ls releases`
@@ -26,7 +18,7 @@ $FINAL_YML_CONTENT
 EOF
 fi
 
-bosh -n create release --force --final --with-tarball
+bosh-cli -n create-release --force --final --tarball
 
 mv releases/${RELEASE_NAME}/*.tgz ../finalized-release
 tar -czhf ../finalized-release/final-builds-dir-${RELEASE_NAME}.tgz .final_builds
