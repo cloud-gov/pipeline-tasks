@@ -8,7 +8,7 @@ image_resource:
 inputs:
 - name: pipeline-tasks
 - name: manifests
-- name: certificates
+- name: certificate
 outputs:
 - name: bosh-errand
 
