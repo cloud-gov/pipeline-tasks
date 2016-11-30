@@ -9,7 +9,7 @@ ${BOSH_USERNAME}
 ${BOSH_PASSWORD}
 EOF
 
-bosh-cli -e releases --json > releases.json
+bosh-cli -e env releases --json > releases.json
 
 # TODO: Don't depend on bosh / jq sort order
 releases=$(cat releases.json | jq -r '.Tables | .[].Rows | map(.[0]) | unique | .[]')
