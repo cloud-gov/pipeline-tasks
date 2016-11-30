@@ -9,7 +9,7 @@ ${BOSH_USERNAME}
 ${BOSH_PASSWORD}
 EOF
 
-bosh-cli -e releases --json > releases.json
+bosh-cli -e env releases --json > releases.json
 
 # TODO: Don't depend on bosh / jq sort order
 releases=$(cat releases.json | jq -r '.Tables | .[].Rows | map(.[0]) | unique | .[]')
@@ -18,9 +18,9 @@ for release in $releases; do
   filter="$filter | .[].Rows"
   filter="$filter | map(select(.[0] == \"${release}\") | .[1] | sub(\"\\\\*\"; \"\")) | .[0]"
   version=$(cat releases.json | jq -r "${filter}")
-  declare "release_${release//-/_}"=${version}
+  declare -x "release_${release//-/_}"=${version}
 done
 
 spruce merge manifests/runtime-config.yml > runtime-config-merged.yml
 
-bosh-cli -e env update-runtime-config runtime-config-merged.yml
+bosh-cli -n -e env update-runtime-config runtime-config-merged.yml
