@@ -1,36 +1,21 @@
 #!/bin/bash
 
-set -e
+set -e -u
 
-if [ -z "$BOSH_TARGET" ]; then
-  echo "must specify \$BOSH_TARGET" >&2
-  exit 1
-fi
+# Hack: Add trailing newline to skip OTP prompt
 
-if [ -z "$BOSH_USERNAME" ]; then
-  echo "must specify \$BOSH_USERNAME" >&2
-  exit 1
-fi
-
-if [ -z "$BOSH_PASSWORD" ]; then
-  echo "must specify \$BOSH_PASSWORD" >&2
-  exit 1
-fi
-
-if [ -n "$BOSH_CERT" ]; then
-  bosh --ca-cert certificate/$BOSH_CERT -n target $BOSH_TARGET
+BOSH_CERT="${BOSH_CERT:-}"
+if [ -n "${BOSH_CERT}" ]; then
+  bosh-cli -n -e "${BOSH_TARGET}" --ca-cert "certificate/${BOSH_CERT}" alias-env env
 else
-  bosh -n target $BOSH_TARGET
+  bosh-cli -n -e "${BOSH_TARGET}" alias-env env
 fi
+bosh-cli -e env log-in <<EOF 1>/dev/null
+${BOSH_USERNAME}
+${BOSH_PASSWORD}
 
-bosh login <<EOF 1>/dev/null
-$BOSH_USERNAME
-$BOSH_PASSWORD
 EOF
 
-# Avoid "negative argument" progressbar error
-export COLUMNS=120
-
 for r in release/*.tgz; do
-  bosh upload release $r
+  bosh-cli -e env upload-release "${r}"
 done
