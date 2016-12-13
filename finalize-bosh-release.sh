@@ -20,7 +20,7 @@ fi
 LAST_VERSION=$(ls releases/${RELEASE_NAME}/${RELEASE_NAME}*.yml | grep -oe '[0-9]\+.yml'| cut -d'.' -f1 | sort -n |tail -1)
 NEW_VERSION=$(($LAST_VERSION+1))
 
-bosh-cli -n create-release --force --final --tarball=finalized-release/${RELEASE_NAME}-${NEW_VERSION}.tgz
+bosh-cli -n create-release --force --final --tarball=../finalized-release/${RELEASE_NAME}-${NEW_VERSION}.tgz
 
 tar -czhf ../finalized-release/final-builds-dir-${RELEASE_NAME}.tgz .final_builds
 tar -czhf ../finalized-release/releases-dir-${RELEASE_NAME}.tgz releases
