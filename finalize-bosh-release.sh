@@ -17,10 +17,10 @@ cat <<EOF > "config/final.yml"
 $FINAL_YML_CONTENT
 EOF
 fi
-LAST_VERSION=$(ls releases/${RELEASE_NAME}/${RELEASE_NAME}*.yml | grep -oe '[0-9]\+.yml'| cut -d'.' -f1 | sort -n |tail -1)
-NEW_VERSION=$(($LAST_VERSION+1))
 
-bosh-cli -n create-release --force --final --tarball=../finalized-release/${RELEASE_NAME}-${NEW_VERSION}.tgz
+bosh-cli -n create-release --force --final --tarball=./${RELEASE_NAME}.tgz
+latest_release=$(ls releases/${RELEASE_NAME}/${RELEASE_NAME}*.yml | grep -oe '[0-9.]\+.yml' | sed -e 's/\.yml$//' | sort -V | tail -1)
+mv ${RELEASE_NAME}.tgz ../finalized-release/${RELEASE_NAME}-${latest_release}.tgz
 
 tar -czhf ../finalized-release/final-builds-dir-${RELEASE_NAME}.tgz .final_builds
 tar -czhf ../finalized-release/releases-dir-${RELEASE_NAME}.tgz releases
