@@ -18,5 +18,4 @@ ${BOSH_PASSWORD}
 EOF
 fi
 
-EOF
 bosh-cli -n -e env -d "${BOSH_DEPLOYMENT_NAME}" run-errand "${BOSH_ERRAND}"
