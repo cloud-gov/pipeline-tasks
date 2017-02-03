@@ -10,7 +10,7 @@ cf login -a $CF_API_URL -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORGANIZATION -s $
 BROKER_URL=https://$(cf app $BROKER_NAME | grep urls: | sed 's/urls: //')
 
 # Create or update service broker
-if ! cf create-service-broker $BROKER_NAME $AUTH_USER $AUTH_PASS $BROKER_URL; then
+if ! cf create-service-broker $BROKER_NAME $AUTH_USER $AUTH_PASS $BROKER_URL $CF_FLAGS; then
   cf update-service-broker $BROKER_NAME $AUTH_USER $AUTH_PASS $BROKER_URL
 fi
 

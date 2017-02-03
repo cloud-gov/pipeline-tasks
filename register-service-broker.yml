@@ -6,6 +6,10 @@ image_resource:
   source:
     repository: 18fgsa/concourse-task
 
+# Optional flags to pass to the `create-service-broker`, blank by default
+params:
+  CF_FLAGS:
+
 inputs:
 - name: pipeline-tasks
 
