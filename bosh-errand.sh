@@ -18,4 +18,4 @@ ${BOSH_PASSWORD}
 EOF
 fi
 
-bosh-cli -n -e env -d "${BOSH_DEPLOYMENT_NAME}" run-errand "${BOSH_ERRAND}"
+bosh-cli -n -e env -d "${BOSH_DEPLOYMENT_NAME}" run-errand "${BOSH_ERRAND}" "${BOSH_FLAGS:-}"
