@@ -31,12 +31,15 @@ for SERVICE in $(echo "$SERVICES"); do
 
   # If SERVICE_ORGANIZATION_BLACKLIST, then expect service to be singular
   if [ -n "${SERVICE_ORGANIZATION_BLACKLIST:-}" ]; then
-    CF_ORGS_OUTPUT="$(cf orgs)"
+    cf_orgs_output="$(cf orgs)"
+    blacklist_array="(${SERVICE_ORGANIZATION_BLACKLIST})"
     org_array=()
     while read -r org_array_line; do
-      if [ ${org_array_line} != ${SERVICE_ORGANIZATION_BLACKLIST} ]; then
-        org_array+=("$org_array_line")
-      fi
+      for blastlisted in blacklist_array; do
+        if [ ${org_array_line} != ${blastlisted} ]; then
+          org_array+=("$org_array_line")
+        fi
+      done
     done <<< "$cf_orgs_output"
     org_array = ("${org_array[@]:3}")
 
