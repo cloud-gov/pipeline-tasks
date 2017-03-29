@@ -29,4 +29,12 @@ for SERVICE in $(echo "$SERVICES"); do
   # https://github.com/cloudfoundry/cli/issues/939
   cf disable-service-access "${ARGS[@]}"
   cf enable-service-access "${ARGS[@]}"
+
+  # If SERVICE_ORGANIATION_BLACKLIST defined
+  # and if SERVICE_ORGANIZATION equals SERVICE_ORGANIATION_BLACKLIST
+  if [ -n $SERVICE_ORGANIATION_BLACKLIST ]; then
+    if [ "$SERVICE_ORGANIZATION" = "$SERVICE_ORGANIATION_BLACKLIST" ]; then
+      cf disable-service-access "${ARGS[@]}"
+    fi
+  fi
 done
