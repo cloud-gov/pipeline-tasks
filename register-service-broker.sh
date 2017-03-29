@@ -28,13 +28,22 @@ for SERVICE in $(echo "$SERVICES"); do
   # Must disable services prior to enabling, otherwise enable will fail if already exists
   # https://github.com/cloudfoundry/cli/issues/939
   cf disable-service-access "${ARGS[@]}"
-  cf enable-service-access "${ARGS[@]}"
 
-  # If SERVICE_ORGANIATION_BLACKLIST defined
-  # and if SERVICE_ORGANIZATION equals SERVICE_ORGANIATION_BLACKLIST
-  if [ -n $SERVICE_ORGANIATION_BLACKLIST ]; then
-    if [ "$SERVICE_ORGANIZATION" = "$SERVICE_ORGANIATION_BLACKLIST" ]; then
-      cf disable-service-access "${ARGS[@]}"
-    fi
+  # If SERVICE_ORGANIZATION_BLACKLIST, then expect service to be singular
+  if [ -n "${SERVICE_ORGANIZATION_BLACKLIST:-}" ]; then
+    CF_ORGS_OUTPUT="$(cf orgs)"
+    org_array=()
+    while read -r org_array_line; do
+      if [ ${org_array_line} != ${SERVICE_ORGANIZATION_BLACKLIST} ]; then
+        org_array+=("$org_array_line")
+      fi
+    done <<< "$cf_orgs_output"
+    org_array = ("${org_array[@]:3}")
+
+    for org in org_array; do
+      cf enable-service-access ${SERVICE_NAME} -o ${org}
+    done
+  else
+    cf enable-service-access "${ARGS[@]}"
   fi
 done
