@@ -1,0 +1,14 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: python
+    tag: "3.6-alpine"
+
+inputs:
+- name: pipeline-tasks
+
+run:
+  path: pipeline-tasks/uaa-smoke-tests.sh
