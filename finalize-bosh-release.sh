@@ -1,22 +1,26 @@
 #!/bin/bash
 # vim: set ft=sh
 
-set -e -u
+set -e -u -x
 
 cd release-git-repo
-RELEASE_NAME=`ls releases`
+RELEASE_NAME=$(ls releases)
 
-tar -zxf ../final-builds-dir-tarball/final-builds-dir-${RELEASE_NAME}.tgz
-tar -zxf ../releases-dir-tarball/releases-dir-${RELEASE_NAME}.tgz
-cat <<EOF > "config/private.yml"
-$PRIVATE_YML_CONTENT
+if [ "${UNTAR_ARTIFACTS:-"yes"}" != "no" ]; then
+  tar -zxf ../final-builds-dir-tarball/final-builds-dir-${RELEASE_NAME}.tgz
+  tar -zxf ../releases-dir-tarball/releases-dir-${RELEASE_NAME}.tgz
+
+  cat <<EOF > "config/private.yml"
+  $PRIVATE_YML_CONTENT
 EOF
 
-if [ -n "$FINAL_YML_CONTENT" ]; then
-cat <<EOF > "config/final.yml"
-$FINAL_YML_CONTENT
+  if [ -n "$FINAL_YML_CONTENT" ]; then
+  cat <<EOF > "config/final.yml"
+  $FINAL_YML_CONTENT
 EOF
+  fi
 fi
+
 
 bosh-cli -n create-release --force --final --tarball=./${RELEASE_NAME}.tgz
 latest_release=$(ls releases/${RELEASE_NAME}/${RELEASE_NAME}*.yml | grep -oe '[0-9.]\+.yml' | sed -e 's/\.yml$//' | sort -V | tail -1)
