@@ -48,4 +48,12 @@ terraform $TERRAFORM_ACTION \
   -refresh=true \
   $DIR
 
+# run apply twice to work around bugs like this
+# https://github.com/hashicorp/terraform/issues/7235
+if [ "$TERRAFORM_ACTION" == "apply" ]; then
+  terraform $TERRAFORM_ACTION \
+    -refresh=true \
+    $DIR
+fi
+
 cp .terraform/terraform* terraform-state
