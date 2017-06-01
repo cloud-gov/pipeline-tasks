@@ -28,17 +28,35 @@ for SERVICE in $(echo "$SERVICES"); do
   SERVICE_NAME=$(echo "${SERVICE}:" | cut -d':' -f1)
   SERVICE_PLAN=$(echo "${SERVICE}:" | cut -d':' -f2)
   ARGS=("${SERVICE_NAME}")
-  if [ -n "${SERVICE_ORGANIZATION:-}" ]; then ARGS+=("-o" "${SERVICE_ORGANIZATION}"); fi
   if [ -n "${SERVICE_PLAN}" ]; then ARGS+=("-p" "${SERVICE_PLAN}"); fi
+
   # Must disable services prior to enabling, otherwise enable will fail if already exists
   # https://github.com/cloudfoundry/cli/issues/939
   cf disable-service-access "${ARGS[@]}"
 
+  # if we have a blacklist, then we enable for all organizations EXCEPT those
+  # since CF doesn't suport this; enumerate all organizations, and filter out those on the blacklist
+  # and enable for each remaining org
   if [ -n "${SERVICE_ORGANIZATION_BLACKLIST:-}" ]; then
+
     for org in `cf orgs | tail -n +4 | grep -Fvxf <(echo $SERVICE_ORGANIZATION_BLACKLIST | tr " " "\n")`; do
       cf enable-service-access "${ARGS[@]}" -o ${org}
     done
+
   else
-    cf enable-service-access "${ARGS[@]}"
+    # if we don't have a blacklist, but do have a whitelist, then iterate over that list
+    # and enable  for each of those orgs
+    if [ -n "${SERVICE_ORGANIZATION:-}" ]; then
+
+      for org in `echo ${SERVICE_ORGANIZATION} | tr " " "\n"`; do
+        cf enable-service-access "${ARGS[@]}" -o ${org}
+      done
+
+    # if we don't have any kind of list, enable for all orgs
+    else
+
+      cf enable-service-access "${ARGS[@]}"
+
+    fi
   fi
 done
