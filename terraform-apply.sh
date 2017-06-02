@@ -44,13 +44,17 @@ terraform get \
   -update \
   $DIR
 
-terraform $TERRAFORM_ACTION \
-  -refresh=true \
-  $DIR
-
-# run apply twice to work around bugs like this
-# https://github.com/hashicorp/terraform/issues/7235
-if [ "$TERRAFORM_ACTION" == "apply" ]; then
+if [ "${TERRAFORM_ACTION}" = "plan" ]; then
+  terraform $TERRAFORM_ACTION \
+    -refresh=true \
+    -out="${PLAN_FILE:-}" \
+    $DIR
+else
+  # run apply twice to work around bugs like this
+  # https://github.com/hashicorp/terraform/issues/7235
+  terraform $TERRAFORM_ACTION \
+    -refresh=true \
+    $DIR
   terraform $TERRAFORM_ACTION \
     -refresh=true \
     $DIR
