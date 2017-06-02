@@ -1,7 +1,7 @@
 #!/bin/bash
 # vim: set ft=sh
 
-set -e
+set -ex
 
 if [ -z "$STACK_NAME" ]; then
   echo "must specify \$STACK_NAME" >&2
@@ -40,7 +40,13 @@ ${TERRAFORM} remote config \
   -backend=s3 \
   -backend-config="encrypt=true" \
   -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
-  -backend-config="key=${STACK_NAME}/terraform.tfstate"
+  -backend-config="key=${STACK_NAME}/terraform.tfstate" || \
+${TERRAFORM} init \
+  -backend=true \
+  -backend-config="encrypt=true" \
+  -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
+  -backend-config="key=${STACK_NAME}/terraform.tfstate" \
+  ${DIR}
 
 ${TERRAFORM} get \
   -update \
