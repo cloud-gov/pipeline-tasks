@@ -1,17 +1,7 @@
 #!/bin/bash
 # vim: set ft=sh
 
-set -ex
-
-if [ -z "$STACK_NAME" ]; then
-  echo "must specify \$STACK_NAME" >&2
-  exit 1
-fi
-
-if [ -z "$S3_TFSTATE_BUCKET" ]; then
-  echo "must specify \$S3_TFSTATE_BUCKET" >&2
-  exit 1
-fi
+set -eux
 
 if [ "$TERRAFORM_ACTION" != "plan" ] && \
     [ "$TERRAFORM_ACTION" != "apply" ]; then
@@ -19,12 +9,7 @@ if [ "$TERRAFORM_ACTION" != "plan" ] && \
   exit 1
 fi
 
-if [ -z "$AWS_DEFAULT_REGION" ]; then
-  echo "must specify \$AWS_DEFAULT_REGION" >&2
-  exit 1
-fi
-
-if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+if [ -z "${AWS_ACCESS_KEY_ID:-}" ] || [ -z "${AWS_SECRET_ACCESS_KEY:-}" ]; then
   echo "AWS credentials not found in params; attempting to use Instance Profile." >&2
 fi
 
@@ -32,7 +17,7 @@ TERRAFORM="${TERRAFORM_BIN:-terraform}"
 
 DIR="terraform-templates"
 
-if [ -n "$TEMPLATE_SUBDIR" ]; then
+if [ -n "${TEMPLATE_SUBDIR:-}" ]; then
   DIR="$DIR/$TEMPLATE_SUBDIR"
 fi
 
@@ -55,8 +40,14 @@ ${TERRAFORM} get \
 if [ "${TERRAFORM_ACTION}" = "plan" ]; then
   ${TERRAFORM} $TERRAFORM_ACTION \
     -refresh=true \
-    -out="${PLAN_FILE:-}" \
+    -out=./terraform-state/terraform.tfplan \
     $DIR
+
+  set +e
+  ${TERRAFORM} show ./terraform-state/terraform.tfplan \
+    | grep -v "This plan does nothing." \
+    > ./terraform-state/message.txt
+  set -e
 else
   # run apply twice to work around bugs like this
   # https://github.com/hashicorp/terraform/issues/7235
