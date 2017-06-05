@@ -6,10 +6,10 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
-  - name: pipeline-tasks
-  - name: terraform-templates
+- name: pipeline-tasks
+- name: terraform-templates
 outputs:
-  - name: terraform-state
+- name: terraform-state
 
 run:
   path: pipeline-tasks/terraform-apply.sh
