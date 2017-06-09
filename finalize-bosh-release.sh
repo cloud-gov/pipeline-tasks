@@ -18,9 +18,9 @@ $FINAL_YML_CONTENT
 EOF
 fi
 
-bosh-cli -n create-release --force --final --tarball=./${RELEASE_NAME}.tgz
-latest_release=$(ls releases/${RELEASE_NAME}/${RELEASE_NAME}*.yml | grep -oe '[0-9.]\+.yml' | sed -e 's/\.yml$//' | sort -V | tail -1)
-mv ${RELEASE_NAME}.tgz ../finalized-release/${RELEASE_NAME}-${latest_release}.tgz
+latest_release=$(bosh-cli -n create-release --force --final --tarball=./${RELEASE_NAME}.tgz \
+  | head -n 2 | tail -n 1)
+mv ${RELEASE_NAME}.tgz ../finalized-release/${RELEASE_NAME}-${latest_release//[[:space:]]}.tgz
 
 tar -czhf ../finalized-release/final-builds-dir-${RELEASE_NAME}.tgz .final_builds
 tar -czhf ../finalized-release/releases-dir-${RELEASE_NAME}.tgz releases
