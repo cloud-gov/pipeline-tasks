@@ -1,0 +1,17 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: 18fgsa/concourse-task
+
+inputs:
+- name: pipeline-config
+- name: lint-manifest
+
+params:
+  - MANIFEST_FILE: manifest.yml
+  - LINTER_CONFIG: bosh-lint.yml
+
+run:
+  - pipeline-tasks/lint-manifest.sh
