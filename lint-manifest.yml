@@ -6,12 +6,13 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
+- name: pipeline-tasks
 - name: pipeline-config
 - name: lint-manifest
 
 params:
-  - MANIFEST_FILE: manifest.yml
-  - LINTER_CONFIG
+  MANIFEST_FILE: manifest.yml
+  LINTER_CONFIG: 
 
 run:
-  - pipeline-tasks/lint-manifest.sh
+  path: pipeline-tasks/lint-manifest.sh
