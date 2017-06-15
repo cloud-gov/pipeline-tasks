@@ -6,8 +6,8 @@ set -e
 #
 # Validate environment
 #
-if [[ ! -d "pipeline-config" || ! -d "lint-manifest" ]]; then
-  echo "Directories pipeline-config and lint-manifest must exist" >&2
+if [[ -n "${LINTER_CONFIG}" && ! -f "pipeline-config/${LINTER_CONFIG}" ]]; then
+  echo "\$LINTER_CONFIG '${LINTER_CONFIG}' not found" >&2
   exit 1
 fi
 if [ -z "$MANIFEST_FILE" ]; then
@@ -22,7 +22,7 @@ fi
 #
 # lint the manifest, using a $LINTER_CONFIG if provided
 #
-if [ -f "pipeline-config/${LINTER_CONFIG}" ]; then
+if [ -n "${LINTER_CONFIG}" ]; then
   bosh-lint lint-manifest --config "pipeline-config/${LINTER_CONFIG}" "lint-manifest/${MANIFEST_FILE}"
 else
   bosh-lint lint-manifest "lint-manifest/${MANIFEST_FILE}"

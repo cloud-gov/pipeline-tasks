@@ -11,7 +11,7 @@ inputs:
 
 params:
   - MANIFEST_FILE: manifest.yml
-  - LINTER_CONFIG: bosh-lint.yml
+  - LINTER_CONFIG
 
 run:
   - pipeline-tasks/lint-manifest.sh
