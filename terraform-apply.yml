@@ -8,6 +8,7 @@ image_resource:
 inputs:
 - name: pipeline-tasks
 - name: terraform-templates
+
 outputs:
 - name: terraform-state
 
@@ -18,6 +19,4 @@ params:
   STACK_NAME:
   TEMPLATE_SUBDIR:
   S3_TFSTATE_BUCKET:
-  AWS_ACCESS_KEY_ID:
-  AWS_SECRET_ACCESS_KEY:
   AWS_DEFAULT_REGION:

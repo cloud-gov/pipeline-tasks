@@ -18,8 +18,12 @@ TERRAFORM="${TERRAFORM_BIN:-terraform}"
 DIR="terraform-templates"
 
 if [ -n "${TEMPLATE_SUBDIR:-}" ]; then
-  DIR="$DIR/$TEMPLATE_SUBDIR"
+  DIR="${DIR}/${TEMPLATE_SUBDIR}"
 fi
+
+${TERRAFORM} get \
+  -update \
+  ${DIR}
 
 ${TERRAFORM} init \
   -backend=true \
@@ -28,15 +32,11 @@ ${TERRAFORM} init \
   -backend-config="key=${STACK_NAME}/terraform.tfstate" \
   ${DIR}
 
-${TERRAFORM} get \
-  -update \
-  $DIR
-
 if [ "${TERRAFORM_ACTION}" = "plan" ]; then
   ${TERRAFORM} $TERRAFORM_ACTION \
     -refresh=true \
     -out=./terraform-state/terraform.tfplan \
-    $DIR
+    ${DIR}
 
   set +e
   ${TERRAFORM} show ./terraform-state/terraform.tfplan \
@@ -48,10 +48,9 @@ else
   # https://github.com/hashicorp/terraform/issues/7235
   ${TERRAFORM} $TERRAFORM_ACTION \
     -refresh=true \
-    $DIR
+    ${DIR}
   ${TERRAFORM} $TERRAFORM_ACTION \
     -refresh=true \
-    $DIR
+    ${DIR}
+  aws s3 cp "s3://${S3_TFSTATE_BUCKET}/${STACK_NAME}/terraform.tfstate" terraform-state
 fi
-
-cp .terraform/terraform* terraform-state

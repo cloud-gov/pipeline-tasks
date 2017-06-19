@@ -10,6 +10,7 @@ inputs:
 - name: terraform-state
 outputs:
 - name: terraform-yaml
+
 run:
   path: pipeline-tasks/terraform-state-to-yaml.sh
 
