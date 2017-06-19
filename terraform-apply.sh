@@ -21,11 +21,6 @@ if [ -n "${TEMPLATE_SUBDIR:-}" ]; then
   DIR="$DIR/$TEMPLATE_SUBDIR"
 fi
 
-${TERRAFORM} remote config \
-  -backend=s3 \
-  -backend-config="encrypt=true" \
-  -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
-  -backend-config="key=${STACK_NAME}/terraform.tfstate" || \
 ${TERRAFORM} init \
   -backend=true \
   -backend-config="encrypt=true" \
