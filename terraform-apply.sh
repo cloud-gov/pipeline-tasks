@@ -15,11 +15,13 @@ fi
 
 TERRAFORM="${TERRAFORM_BIN:-terraform}"
 
-DIR="terraform-templates"
+DIR=${TF_STACK:-"terraform-templates"}
 
 if [ -n "${TEMPLATE_SUBDIR:-}" ]; then
   DIR="${DIR}/${TEMPLATE_SUBDIR}"
 fi
+
+mkdir -p terraform-state
 
 ${TERRAFORM} get \
   -update \
