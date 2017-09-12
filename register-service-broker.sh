@@ -21,6 +21,8 @@ if [ -n "${SERVICE_ORGANIZATION:-}" ] && [ -n "${SERVICE_ORGANIZATION_BLACKLIST:
   exit 1;
 fi
 
+# Cache cf orgs output
+CF_ORGS=`cf orgs | tail -n +4`
 # Enable access to service plans
 # Services should be a set of "$name" or "$name:$plan" values, such as
 # "redis28-multinode mongodb30-multinode:persistent"
@@ -39,7 +41,7 @@ for SERVICE in $(echo "$SERVICES"); do
   # and enable for each remaining org
   if [ -n "${SERVICE_ORGANIZATION_BLACKLIST:-}" ]; then
 
-    for org in `cf orgs | tail -n +4 | grep -Fvxf <(echo $SERVICE_ORGANIZATION_BLACKLIST | tr " " "\n")`; do
+    for org in `echo "${CF_ORGS}" | grep -Fvxf <(echo $SERVICE_ORGANIZATION_BLACKLIST | tr " " "\n")`; do
       cf enable-service-access "${ARGS[@]}" -o ${org}
     done
 
