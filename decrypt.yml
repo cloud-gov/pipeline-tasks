@@ -6,10 +6,11 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
-  - name: pipeline-tasks
+- name: pipeline-tasks
+- name: encrypt
 
 outputs:
-  - name: decrypt
+- name: decrypt
 
 run:
   path: pipeline-tasks/decrypt.sh
