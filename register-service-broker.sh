@@ -1,20 +1,21 @@
 #!/bin/bash
 
-set -e
-set -u
+set -eux
 
 # Authenticate
-cf login -a $CF_API_URL -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORGANIZATION -s $CF_SPACE
+cf api "${CF_API_URL}"
+(set +x; cf auth "${CF_USERNAME}" "${CF_PASSWORD}")
+cf target -o "${CF_ORGANIZATION}" -s "${CF_SPACE}"
 
 # Get service broker URL
-BROKER_URL=https://$(cf app $BROKER_NAME | grep routes: | awk '{print $2}')
-
-# Create or update service broker
-if ! cf create-service-broker $BROKER_NAME $AUTH_USER $AUTH_PASS $BROKER_URL $CF_FLAGS; then
-  cf update-service-broker $BROKER_NAME $AUTH_USER $AUTH_PASS $BROKER_URL
+if [ -z "${BROKER_URL:-}" ]; then
+  BROKER_URL=https://$(cf app "${BROKER_NAME}" | grep routes: | awk '{print $2}')
 fi
 
-set -x
+# Create or update service broker
+if ! cf create-service-broker "${BROKER_NAME}" "${AUTH_USER}" "${AUTH_PASS}" "${BROKER_URL}" "${CF_FLAGS}"; then
+  cf update-service-broker "${BROKER_NAME}" "${AUTH_USER}" "${AUTH_PASS}" "${BROKER_URL}"
+fi
 
 if [ -n "${SERVICE_ORGANIZATION:-}" ] && [ -n "${SERVICE_ORGANIZATION_BLACKLIST:-}" ]; then
   echo "You may set SERVICE_ORGANIZATION or SERVICE_ORGANIZATION_BLACKLIST but not both"
