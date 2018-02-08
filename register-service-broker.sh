@@ -13,7 +13,7 @@ if [ -z "${BROKER_URL:-}" ]; then
 fi
 
 # Create or update service broker
-if ! cf create-service-broker "${BROKER_NAME}" "${AUTH_USER}" "${AUTH_PASS}" "${BROKER_URL}" "${CF_FLAGS}"; then
+if ! cf create-service-broker "${BROKER_NAME}" "${AUTH_USER}" "${AUTH_PASS}" "${BROKER_URL}"; then
   cf update-service-broker "${BROKER_NAME}" "${AUTH_USER}" "${AUTH_PASS}" "${BROKER_URL}"
 fi
 
