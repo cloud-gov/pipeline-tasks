@@ -38,11 +38,10 @@ if [ "${TERRAFORM_ACTION}" = "plan" ]; then
     -out=./terraform-state/terraform.tfplan \
     ${DIR}
 
-  set +e
-  ${TERRAFORM} show ./terraform-state/terraform.tfplan \
-    | grep -v "This plan does nothing." \
-    > ./terraform-state/message.txt
-  set -e
+  # Write a sentinel value; pipelines can alert to slack if set using `text_file`
+  if ! ${TERRAFORM} show ./terraform-state/terraform.tfplan | grep 'This plan does nothing.' ; then
+    echo "sentinel" > ./terraform-state/message.txt
+  fi
 else
   # run apply twice to work around bugs like this
   # https://github.com/hashicorp/terraform/issues/7235
