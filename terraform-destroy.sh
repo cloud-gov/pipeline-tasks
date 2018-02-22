@@ -1,26 +1,9 @@
 #!/bin/bash
 # vim: set ft=sh
 
-set -e
+set -eux
 
-if [ -z "$STACK_NAME" ]; then
-  echo "must specify \$STACK_NAME" >&2
-  exit 1
-fi
-
-if [ -z "$S3_TFSTATE_BUCKET" ]; then
-  echo "must specify \$S3_TFSTATE_BUCKET" >&2
-  exit 1
-fi
-
-if [ -z "$AWS_DEFAULT_REGION" ]; then
-  echo "must specify \$AWS_DEFAULT_REGION" >&2
-  exit 1
-fi
-
-if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
-  echo "AWS credentials not found in params; attempting to use Instance Profile." >&2
-fi
+TERRAFORM="${TERRAFORM_BIN:-terraform}"
 
 DIR="terraform-templates"
 
@@ -28,19 +11,26 @@ if [ -n "$TEMPLATE_SUBDIR" ]; then
   DIR="$DIR/$TEMPLATE_SUBDIR"
 fi
 
+# Hack: Disable `prevent_destroy` if requested
+# See https://github.com/hashicorp/terraform/issues/3874
+if [ "${PREVENT_PREVENT_DESTROY:-}" == "true" ]; then
+  find terraform-templates -type f -name "*.tf" -exec sed -i 's/prevent_destroy = true/prevent_destroy = false/g' {} +
+fi
 
-terraform remote config \
-  -backend=s3 \
-  -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
-  -backend-config="key=${STACK_NAME}/terraform.tfstate"
-
-terraform get \
+${TERRAFORM} get \
   -update \
-  $DIR
+  "${DIR}"
+
+${TERRAFORM} init \
+  -backend=true \
+  -backend-config="encrypt=true" \
+  -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
+  -backend-config="key=${STACK_NAME}/terraform.tfstate" \
+  "${DIR}"
 
 terraform destroy \
   -refresh=true \
   -force \
-  $DIR
+  "${DIR}"
 
-cp .terraform/terraform* terraform-state
+aws s3 cp "s3://${S3_TFSTATE_BUCKET}/${STACK_NAME}/terraform.tfstate" terraform-state
