@@ -14,9 +14,3 @@ outputs:
 
 run:
   path: pipeline-tasks/terraform-apply.sh
-
-params:
-  STACK_NAME:
-  TEMPLATE_SUBDIR:
-  S3_TFSTATE_BUCKET:
-  AWS_DEFAULT_REGION:
