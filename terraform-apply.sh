@@ -29,7 +29,7 @@ ${TERRAFORM} init \
   "${DIR}"
 
 if [ "${TERRAFORM_ACTION}" = "plan" ]; then
-  ${TERRAFORM} $TERRAFORM_ACTION \
+  ${TERRAFORM} "${TERRAFORM_ACTION}" \
     -refresh=true \
     -out=./terraform-state/terraform.tfplan \
     "${DIR}"
@@ -43,11 +43,13 @@ if [ "${TERRAFORM_ACTION}" = "plan" ]; then
 else
   # run apply twice to work around bugs like this
   # https://github.com/hashicorp/terraform/issues/7235
-  ${TERRAFORM} $TERRAFORM_ACTION \
+  ${TERRAFORM} "${TERRAFORM_ACTION}" \
     -refresh=true \
+    -auto-approve \
     "${DIR}"
-  ${TERRAFORM} $TERRAFORM_ACTION \
+  ${TERRAFORM} "${TERRAFORM_ACTION}" \
     -refresh=true \
+    -auto-approve \
     "${DIR}"
   aws s3 cp "s3://${S3_TFSTATE_BUCKET}/${STACK_NAME}/terraform.tfstate" terraform-state
 fi
