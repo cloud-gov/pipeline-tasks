@@ -21,11 +21,24 @@ ${TERRAFORM} get \
   -update \
   "${DIR}"
 
+init_args=(
+  "-backend=true"
+  "-backend-config=encrypt=true"
+  "-backend-config=bucket=${S3_TFSTATE_BUCKET}"
+  "-backend-config=key=${STACK_NAME}/terraform.tfstate"
+)
+if [ -n "${TF_VAR_aws_region:-}" ]; then
+  init_args+=("-backend-config=region=${TF_VAR_aws_region}")
+fi
+if [ -n "${TF_VAR_aws_access_key:-}" ]; then
+  init_args+=("-backend-config=access_key=${TF_VAR_aws_access_key}")
+fi
+if [ -n "${TF_VAR_aws_secret_key:-}" ]; then
+  init_args+=("-backend-config=secret_key=${TF_VAR_aws_secret_key}")
+fi
+
 ${TERRAFORM} init \
-  -backend=true \
-  -backend-config="encrypt=true" \
-  -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
-  -backend-config="key=${STACK_NAME}/terraform.tfstate" \
+  "${init_args[@]}" \
   "${DIR}"
 
 if [ "${TERRAFORM_ACTION}" = "plan" ]; then
@@ -49,5 +62,14 @@ else
   ${TERRAFORM} $TERRAFORM_ACTION \
     -refresh=true \
     "${DIR}"
+  if [ -n "${TF_VAR_aws_region:-}" ]; then
+    export AWS_DEFAULT_REGION="${TF_VAR_aws_region}"
+  fi
+  if [ -n "${TF_VAR_aws_access_key:-}" ]; then
+    export AWS_ACCESS_KEY_ID="${TF_VAR_aws_access_key}"
+  fi
+  if [ -n "${TF_VAR_aws_secret_key:-}" ]; then
+    export AWS_SECRET_ACCESS_KEY="${TF_VAR_aws_secret_key}"
+  fi
   aws s3 cp "s3://${S3_TFSTATE_BUCKET}/${STACK_NAME}/terraform.tfstate" terraform-state
 fi
