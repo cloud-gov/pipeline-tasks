@@ -42,7 +42,7 @@ ${TERRAFORM} init \
   "${DIR}"
 
 if [ "${TERRAFORM_ACTION}" = "plan" ]; then
-  ${TERRAFORM} $TERRAFORM_ACTION \
+  ${TERRAFORM} "${TERRAFORM_ACTION}" \
     -refresh=true \
     -out=./terraform-state/terraform.tfplan \
     "${DIR}"
@@ -56,11 +56,13 @@ if [ "${TERRAFORM_ACTION}" = "plan" ]; then
 else
   # run apply twice to work around bugs like this
   # https://github.com/hashicorp/terraform/issues/7235
-  ${TERRAFORM} $TERRAFORM_ACTION \
+  ${TERRAFORM} "${TERRAFORM_ACTION}" \
     -refresh=true \
+    -auto-approve \
     "${DIR}"
-  ${TERRAFORM} $TERRAFORM_ACTION \
+  ${TERRAFORM} "${TERRAFORM_ACTION}" \
     -refresh=true \
+    -auto-approve \
     "${DIR}"
   if [ -n "${TF_VAR_aws_region:-}" ]; then
     export AWS_DEFAULT_REGION="${TF_VAR_aws_region}"
