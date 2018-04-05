@@ -44,6 +44,7 @@ ${TERRAFORM} init \
 if [ "${TERRAFORM_ACTION}" = "plan" ]; then
   ${TERRAFORM} "${TERRAFORM_ACTION}" \
     -refresh=true \
+    -input=false \
     -out=./terraform-state/terraform.tfplan \
     "${DIR}"
 
@@ -58,10 +59,12 @@ else
   # https://github.com/hashicorp/terraform/issues/7235
   ${TERRAFORM} "${TERRAFORM_ACTION}" \
     -refresh=true \
+    -input=false \
     -auto-approve \
     "${DIR}"
   ${TERRAFORM} "${TERRAFORM_ACTION}" \
     -refresh=true \
+    -input=false \
     -auto-approve \
     "${DIR}"
   if [ -n "${TF_VAR_aws_region:-}" ]; then
