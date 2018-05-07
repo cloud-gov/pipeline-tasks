@@ -2,15 +2,15 @@
 
 set -eux
 
-function check_service() {
+check_service() {
   instance="$1"
-  timeout="{$2:-300}"
+  timeout="${2:-300}"
   elapsed=0
-  until [ "${elapsed}" -le "${timeout}" ]; do
+  until [ "${elapsed}" -gt "${timeout}" ]; do
     status=$(cf service "${instance}")
-    if echo "${status}" | grep "Status: create succeeded"; then
+    if echo "${status}" | grep "create succeeded"; then
       return 0
-    elif echo "${status}" | grep "Status: create failed"; then
+    elif echo "${status}" | grep "create failed"; then
       return 1
     fi
     let elapsed+=5
