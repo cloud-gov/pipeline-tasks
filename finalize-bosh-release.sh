@@ -19,7 +19,7 @@ EOF
 fi
 
 bosh-cli -n create-release --force --final --tarball="./${RELEASE_NAME}.tgz"
-latest_release=$(ls "releases/${RELEASE_NAME}/${RELEASE_NAME}*.yml" | grep -oe '[0-9.]\+.yml' | sed -e 's/\.yml$//' | sort -V | tail -1)
+latest_release=$(echo releases/"${RELEASE_NAME}"/"${RELEASE_NAME}"*.yml | grep -oe '[0-9.]\+.yml' | sed -e 's/\.yml$//' | sort -V | tail -1)
 mv "${RELEASE_NAME}.tgz" "../finalized-release/${RELEASE_NAME}-${latest_release}.tgz"
 
 tar -czhf "../finalized-release/final-builds-dir-${RELEASE_NAME}.tgz" .final_builds
