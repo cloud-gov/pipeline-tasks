@@ -7,7 +7,7 @@ cd release-git-repo
 RELEASE_NAME=$(grep final_name config/final.yml | awk '{print $2}')
 
 # Clear existing release metadata to avoid conflicts with upstream
-rm releases/${RELEASE_NAME}/*.yml
+rm -f releases/"${RELEASE_NAME}"/*.yml
 rm -rf .final_builds
 
 tar -zxf "../final-builds-dir-tarball/final-builds-dir-${RELEASE_NAME}.tgz"
