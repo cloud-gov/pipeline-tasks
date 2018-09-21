@@ -14,3 +14,19 @@ outputs:
 
 run:
   path: pipeline-tasks/terraform-apply.sh
+
+params:
+  TERRAFORM_ACTION:
+  STACK_NAME:
+  TEMPLATE_SUBDIR:
+  S3_TFSTATE_BUCKET:
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
+  AWS_DEFAULT_REGION:
+  TF_VAR_stack_description:
+  TF_VAR_aws_default_region:
+  TF_VAR_cdn_broker_username:
+  TF_VAR_cdn_broker_bucket:
+  TF_VAR_cdn_broker_cloudfront_prefix:
+  TF_VAR_cdn_broker_hosted_zone:
+  TF_VAR_lets_encrypt_hosted_zone:
