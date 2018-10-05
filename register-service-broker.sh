@@ -37,8 +37,6 @@ if [ -n "${SERVICE_ORGANIZATION:-}" ] && [ -n "${SERVICE_ORGANIZATION_BLACKLIST:
   exit 1;
 fi
 
-if [ -n ]
-
 # Enable access to service plans
 # Services should be a set of "$name" or "$name:$plan" values, such as
 # "redis28-multinode mongodb30-multinode:persistent"
