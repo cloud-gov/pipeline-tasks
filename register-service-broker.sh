@@ -6,6 +6,21 @@ set -eux
 cf api "${CF_API_URL}"
 (set +x; cf auth "${CF_USERNAME}" "${CF_PASSWORD}")
 cf target -o "${CF_ORGANIZATION}" -s "${CF_SPACE}"
+# Set sandbox orgs if flag is set for sandboxes
+while getopts ":s" opt; do
+  case $opt in
+    s)
+      ORGLIST=""
+      for org in $(cf orgs | grep sandbox); do
+        ORGLIST+=("${org}");
+      done
+      export SERVICE_ORGANIZATION=${ORGLIST}
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
 
 # Get service broker URL
 if [ -z "${BROKER_URL:-}" ]; then
@@ -21,6 +36,8 @@ if [ -n "${SERVICE_ORGANIZATION:-}" ] && [ -n "${SERVICE_ORGANIZATION_BLACKLIST:
   echo "You may set SERVICE_ORGANIZATION or SERVICE_ORGANIZATION_BLACKLIST but not both"
   exit 1;
 fi
+
+if [ -n ]
 
 # Enable access to service plans
 # Services should be a set of "$name" or "$name:$plan" values, such as
