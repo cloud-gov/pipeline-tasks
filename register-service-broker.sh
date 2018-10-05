@@ -12,7 +12,7 @@ while getopts ":s" opt; do
     s)
       ORGLIST=""
       for org in $(cf orgs | grep sandbox); do
-        ORGLIST+=("${org}")
+        ORGLIST+=${org}" "
       done
       export SERVICE_ORGANIZATION=${ORGLIST}
       ;;
