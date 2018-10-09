@@ -6,6 +6,21 @@ set -eux
 cf api "${CF_API_URL}"
 (set +x; cf auth "${CF_USERNAME}" "${CF_PASSWORD}")
 cf target -o "${CF_ORGANIZATION}" -s "${CF_SPACE}"
+# Set sandbox orgs if flag is set for sandboxes
+while getopts ":s" opt; do
+  case $opt in
+    s)
+      ORGLIST=""
+      for org in $(cf orgs | grep sandbox); do
+        ORGLIST+=${org}" "
+      done
+      export SERVICE_ORGANIZATION=${ORGLIST}
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
 
 # Get service broker URL
 if [ -z "${BROKER_URL:-}" ]; then
