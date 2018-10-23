@@ -14,6 +14,7 @@ while getopts ":s" opt; do
       for org in $(cf orgs | grep sandbox); do
         ORGLIST+=${org}" "
       done
+      ORGLIST+="cloud-gov"
       export SERVICE_ORGANIZATION=${ORGLIST}
       ;;
     \?)
