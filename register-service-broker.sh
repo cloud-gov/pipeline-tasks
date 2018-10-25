@@ -11,7 +11,7 @@ while getopts ":s" opt; do
   case $opt in
     s)
       ORGLIST=""
-      for org in $(cf orgs | grep sandbox); do
+      for org in $(cf orgs | grep 'sandbox\|SMOKE\|CATS\|test'); do
         ORGLIST+=${org}" "
       done      
       export SERVICE_ORGANIZATION_BLACKLIST=${ORGLIST}
