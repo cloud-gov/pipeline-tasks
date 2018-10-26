@@ -11,11 +11,10 @@ while getopts ":s" opt; do
   case $opt in
     s)
       ORGLIST=""
-      for org in $(cf orgs | grep sandbox); do
+      for org in $(cf orgs | grep 'sandbox\|SMOKE\|CATS\|test'); do
         ORGLIST+=${org}" "
-      done
-      ORGLIST+="cloud-gov"
-      export SERVICE_ORGANIZATION=${ORGLIST}
+      done      
+      export SERVICE_ORGANIZATION_BLACKLIST=${ORGLIST}
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
