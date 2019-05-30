@@ -13,12 +13,14 @@ TERRAFORM="${TERRAFORM_BIN:-terraform}"
 
 DIR="terraform-templates"
 
+set +x
 # unset TF_VARs that are empty strings
 for tfvar in "${!TF_VAR_@}"; do
 	if [[ -z "${!tfvar}" ]]; then
 		unset ${tfvar}
 	fi
 done
+set -x
 
 if [ -n "${TEMPLATE_SUBDIR:-}" ]; then
   DIR="${DIR}/${TEMPLATE_SUBDIR}"
