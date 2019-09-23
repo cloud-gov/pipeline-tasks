@@ -11,8 +11,8 @@ resources:
 - name: pipeline-tasks
   type: git
   source:
-    uri: {{pipeline-tasks-git-url}}
-    branch: {{pipeline-tasks-git-branch}}
+    uri: ((pipeline-tasks-git-url))
+    branch: ((pipeline-tasks-git-branch))
 ```
 
 Add `pipeline-tasks-git-url` and `pipeline-tasks-git-branch` to your `credentials.yml`:
