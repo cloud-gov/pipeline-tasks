@@ -45,6 +45,7 @@ for SERVICE in $(echo "$SERVICES"); do
   SERVICE_PLAN=$(echo "${SERVICE}:" | cut -d':' -f2)
   ARGS=("${SERVICE_NAME}")
   if [ -n "${SERVICE_PLAN}" ]; then ARGS+=("-p" "${SERVICE_PLAN}"); fi
+  if [ -n "${BROKER_NAME}" ]; then ARGS+=("-b" "${BROKER_NAME}"); fi
 
   # Must disable services prior to enabling, otherwise enable will fail if already exists
   # https://github.com/cloudfoundry/cli/issues/939
