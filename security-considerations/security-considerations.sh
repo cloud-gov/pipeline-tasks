@@ -2,7 +2,7 @@
 
 lines=$(grep -iEA 1 '^#+ *security considerations *#* *$' pull-request/.git/body | grep -ev '^ *\[Note' | wc -l)
 
-ls -al pull-request
+ls -al pull-request/.git
 
 
 if [ ${lines} -ge 2 ]; then
