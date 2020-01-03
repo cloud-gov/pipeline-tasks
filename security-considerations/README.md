@@ -8,7 +8,7 @@ request has a Security Considerations section.
 1. add/remove the repos as necessary in repos.txt
 2. run `python generate-pipeline.py`
 3. get the credentials file from our secrets store. Call it security-considerations.yml
-4. run `fly -t fr sp -p security-considerations-check -c ./pipeline.yml -c cg-security-considerations.yml`
+4. run `fly -t fr sp -p security-considerations-check -c ./pipeline.yml -l cg-security-considerations.yml`
 
 ## making sure your PR passes
 1. consider the security impacts of your changes
