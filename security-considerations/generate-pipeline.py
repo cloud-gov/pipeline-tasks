@@ -16,7 +16,7 @@ def main():
         for repo in repos:
             resource_name = pr_resource_name(repo)
             f.write(f"""
-- name: pull status check {repo}
+- name: pull-status-check-{repo_name(repo)}
   plan:
   - get: pipeline-tasks
   - get: {resource_name}
@@ -28,7 +28,7 @@ def main():
       status: pending
   - task: build
     input_mapping:
-      {resource_name}: pull-request
+      pull-request: {resource_name}
     file: pipeline-tasks/security-considerations/security-considerations.yml
     on_success:
       put: {resource_name}
