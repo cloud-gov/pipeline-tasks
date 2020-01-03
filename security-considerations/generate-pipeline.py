@@ -70,7 +70,6 @@ resource_types:
 
 def repo_name(repo):
     """make a resource name from a repo name"""
-    print(repo)
     return repo.split("/")[1]
 
 def pr_resource_name(repo):
