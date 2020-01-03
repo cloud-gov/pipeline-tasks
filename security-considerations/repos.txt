@@ -3,7 +3,6 @@
 18F/aws-broker
 18F/cf-byo-broker
 18F/cf-cdn-service-broker
-18F/cf-cdn-service-broker.code-workspace
 18F/cf-domain-broker
 18F/cf-domain-broker-alb
 18F/cf-domain-broker-alb-boshrelease
