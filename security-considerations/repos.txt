@@ -1,0 +1,3 @@
+# each line should contain a github repo name, in the form organization/repo, e.g. 18F/cg-pipeline-tasks
+# lines where the first non-whitespace character is a # are ignored
+18F/cg-pipeline-tasks
