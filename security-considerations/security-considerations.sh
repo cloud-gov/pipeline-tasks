@@ -1,10 +1,6 @@
 #!/bin/bash
 
-lines=$(grep -iEA 1 '^#+ *security considerations *#* *$' pull-request/.git/body | grep -ev '^ *\[Note' | wc -l)
-
-ls -al pull-request/.git
-
-sleep 3000
+lines=$(grep -iEA 1 '^#+ *security considerations' pull-request/.git/body | grep -Ev '^ *\[Note' | wc -l)
 
 if [ ${lines} -ge 2 ]; then
     exit 0
