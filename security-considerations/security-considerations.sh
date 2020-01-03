@@ -4,6 +4,7 @@ lines=$(grep -iEA 1 '^#+ *security considerations *#* *$' pull-request/.git/body
 
 ls -al pull-request/.git
 
+sleep 3000
 
 if [ ${lines} -ge 2 ]; then
     exit 0
