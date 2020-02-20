@@ -1,10 +1,12 @@
 #!/bin/bash
 
-lines=$(grep -iEA 1 '^#+ *security considerations' pull-request/.git/body | grep -Ev '^ *\[Note' | wc -l)
+set -x
 
-if [ ${lines} -ge 2 ]; then
-    exit 0
-else
-    echo "didn't find Security Considerations section in PR"
+# look for a security considerations header and the two lines after it.    drop the heading                           drop the instructions  drop any empty lines
+lines=$(grep -iEA 2 '^#+ *security considerations' pull-request/.git/body | grep -Ev '^#+ *security considerations' | grep -Ev '^ *\[Note' | grep -Ev '^ *$')
+
+if [[ -z ${lines} ]]; then
+    echo "Didn't find Security Considerations section in PR"
     exit 1
 fi
+
