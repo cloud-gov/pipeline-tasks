@@ -1,3 +1,6 @@
+#!/bin/bash
+set -eux
+
 export AWS_DEFAULT_REGION=${DEST_REGION}
 aws s3 sync --source-region=${SOURCE_REGION} \
         --sse=AES256 \
