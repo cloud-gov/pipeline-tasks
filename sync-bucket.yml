@@ -6,7 +6,7 @@ image_resource:
     repository: 18fgsa/concourse-task
 
 inputs:
-  name: pipeline-tasks
+- name: pipeline-tasks
 run:
   path: pipeline-tasks/sync-bucket.sh
 
