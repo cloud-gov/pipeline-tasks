@@ -1,0 +1,30 @@
+---
+jobs:
+- name: sync-bucket
+    plan:
+    - get: bucket-timer
+      trigger: true
+    - get: pipeline-tasks
+    - task: sync-bucket
+      file: pipeline-tasks/sync-bucket.yml
+      params:
+        AWS_ACCESS_KEY_ID: ((AWS_ACCESS_KEY_ID))
+        AWS_SECRET_ACCESS_KEY: ((AWS_SECRET_ACCESS_KEY))
+        AWS_ACCESS_KEY_ID: ((AWS_ACCESS_KEY_ID))
+        SOURCE_BUCKET: ((SOURCE_BUCKET))
+        SOURCE_BUCKET_REGION: ((SOURCE_BUCKET_REGION))
+        DESTINATION_BUCKET: ((DESTINATION_BUCKET))
+        DESTINATION_BUCKET_REGION: ((DESTINATION_BUCKET_REGION))
+        SUBDIRECTORY: ((SUBDIRECTORY))
+
+resources:
+- name: timer
+  type: time
+  source:
+    interval: ((interval_time))
+
+- name: pipeline-tasks
+  type: git
+  source:
+    uri: https://github.com/18F/cg-pipeline-tasks
+    branch: master

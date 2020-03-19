@@ -1,0 +1,20 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: 18fgsa/concourse-task
+
+inputs:
+  name: pipeline-tasks
+run:
+  path: pipeline-tasks/sync-bucket.sh
+
+params:
+  AWS_SECRET_ACCESS_KEY:
+  AWS_ACCESS_KEY_ID:
+  SOURCE_BUCKET:
+  SOURCE_BUCKET_REGION:
+  DESTINATION_BUCKET:
+  DESTINATION_BUCKET_REGION:
+  SUBDIRECTORY:
