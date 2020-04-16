@@ -10,7 +10,7 @@ def main():
             line = line.strip()
             if line and not line.startswith('#'):
                 repos.append(line)
-    with open("./pipeline.yml", "w") as f:
+    with open(repos_file.parent / "pipeline.yml", "w") as f:
 
         f.write("---\njobs:")
         for repo in repos:
