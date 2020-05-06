@@ -1,0 +1,18 @@
+# This is for services that don't correcty report their status via `cf
+# service` (the aws-broker being the prime offender).  Instead, this script
+# blocks until it can create a service key.
+#
+# If you have a well-behaved service, use `ensure-service` instead.
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: 18fgsa/concourse-task
+
+inputs:
+- name: pipeline-tasks
+
+run:
+  path: pipeline-tasks/ensure-misbehaved-service.sh
