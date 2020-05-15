@@ -5,6 +5,7 @@ import os
 def main():
     repos_file = find_repos_file()
     repos = []
+    context = "pr-message-includes-security-considerations"
     with open(repos_file, "r") as f:
         for line in f:
             line = line.strip()
@@ -26,6 +27,7 @@ def main():
     params:
       path: {resource_name}
       status: pending
+      context: {context}
   - task: build
     input_mapping:
       pull-request: {resource_name}
@@ -35,11 +37,13 @@ def main():
       params:
         path: {resource_name}
         status: success
+        context: {context}
     on_failure:
       put: {resource_name}
       params:
         path: {resource_name}
         status: failure
+        context: {context}
 """)
         f.write("""
 resources:
