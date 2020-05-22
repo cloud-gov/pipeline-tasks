@@ -70,6 +70,7 @@ cloud-gov/finalized-release
 cloud-gov/kubernetes-broker
 cloud-gov/kubernetes-broker-exporter
 cloud-gov/kubernetes-release
+cloud-gov/log-spammer
 cloud-gov/logsearch-boshrelease
 cloud-gov/logsearch-for-cloudfoundry
 cloud-gov/nfs-volume-release
