@@ -4,7 +4,7 @@ image_resource:
   type: registry-image
   source:
     repository: 18fgsa/concourse-task
-    repository_mirror:
+    registry_mirror:
       host: docker-registry-mirror.app.cloud.gov:443
 
 inputs:
