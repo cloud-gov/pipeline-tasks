@@ -39,6 +39,7 @@ cloud-gov/cg-deploy-stratos
 cloud-gov/cg-deploy-volume-services
 cloud-gov/cg-diagrams
 cloud-gov/cg-django-uaa
+cloud-gov/docker-registry-mirror
 cloud-gov/cg-elb-log-ingestor
 cloud-gov/cg-elb-log-ingestor-boshrelease
 cloud-gov/cg-harden-boshrelease
