@@ -4,7 +4,8 @@
 set -eux
 
 if [ "$TERRAFORM_ACTION" != "plan" ] && \
-    [ "$TERRAFORM_ACTION" != "apply" ]; then
+    [ "$TERRAFORM_ACTION" != "apply" ] && \
+    [ "$TERRAFORM_ACTION" != "0.12checklist" ]; then
   echo 'must set $TERRAFORM_ACTION to "plan" or "apply"' >&2
   exit 1
 fi
@@ -55,6 +56,16 @@ if [ "${TERRAFORM_ACTION}" = "plan" ]; then
     -refresh=true \
     -input=false \
     -out=./terraform-state/terraform.tfplan \
+    "${DIR}"
+
+  # Write a sentinel value; pipelines can alert to slack if set using `text_file`
+  # Ensure that slack notification resource detects text file
+  touch ./terraform-state/message.txt
+  if ! ${TERRAFORM} show ./terraform-state/terraform.tfplan | grep 'This plan does nothing.' ; then
+    echo "sentinel" > ./terraform-state/message.txt
+  fi
+else if [ "${TERRAFORM_ACTION}" = "0.12checklist" ]; then
+  ${TERRAFORM} "${TERRAFORM_ACTION}" \
     "${DIR}"
 
   # Write a sentinel value; pipelines can alert to slack if set using `text_file`
