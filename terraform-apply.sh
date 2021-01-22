@@ -64,7 +64,7 @@ if [ "${TERRAFORM_ACTION}" = "plan" ]; then
   if ! ${TERRAFORM} show ./terraform-state/terraform.tfplan | grep 'This plan does nothing.' ; then
     echo "sentinel" > ./terraform-state/message.txt
   fi
-else if [ "${TERRAFORM_ACTION}" = "0.12checklist" ]; then
+elif [ "${TERRAFORM_ACTION}" = "0.12checklist" ]; then
   ${TERRAFORM} "${TERRAFORM_ACTION}" \
     "${DIR}"
 
