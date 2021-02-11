@@ -65,6 +65,7 @@ cloud-gov/cg-tripwire-boshrelease
 cloud-gov/cg-uaa-extras
 cloud-gov/cg-windows-stemcell-builder
 cloud-gov/concourse-http-resource
+cloud-gov/deploy-credhub
 cloud-gov/docker-boshrelease
 cloud-gov/elastalert-boshrelease
 cloud-gov/finalized-release
