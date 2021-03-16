@@ -84,4 +84,4 @@ cloud-gov/s3-resource-simple
 cloud-gov/shibboleth-boshrelease
 cloud-gov/uaa-customized-boshrelease
 cloud-gov/uaa-bot
-cloud-gov/cg-uaa-extras-redis-migrator/
+cloud-gov/cg-uaa-extras-redis-migrator
