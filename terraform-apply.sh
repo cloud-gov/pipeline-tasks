@@ -63,7 +63,7 @@ if [ "${TERRAFORM_ACTION}" = "plan" ]; then
   # Write a sentinel value; pipelines can alert to slack if set using `text_file`
   # Ensure that slack notification resource detects text file
   touch ./terraform-state/message.txt
-  if ! cat ./terraform-state/terraform-plan-output.txt | grep 'No Changes.' ; then
+  if ! cat ./terraform-state/terraform-plan-output.txt | grep 'No changes.' ; then
     echo "sentinel" > ./terraform-state/message.txt
   fi
 else
