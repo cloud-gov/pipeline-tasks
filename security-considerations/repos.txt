@@ -68,10 +68,14 @@ cloud-gov/concourse-http-resource
 cloud-gov/deploy-credhub
 cloud-gov/docker-boshrelease
 cloud-gov/elastalert-boshrelease
+cloud-gov/external-domain-broker
+cloud-gov/external-domain-broker-migrator
 cloud-gov/finalized-release
+cloud-gov/kibana-cf-auth-proxy
 cloud-gov/kubernetes-broker
 cloud-gov/kubernetes-broker-exporter
 cloud-gov/kubernetes-release
+cloud-gov/legacy-domain-certificate-renewer
 cloud-gov/log-spammer
 cloud-gov/logsearch-boshrelease
 cloud-gov/logsearch-for-cloudfoundry
@@ -86,3 +90,4 @@ cloud-gov/shibboleth-boshrelease
 cloud-gov/uaa-customized-boshrelease
 cloud-gov/uaa-bot
 cloud-gov/cg-uaa-extras-redis-migrator
+
