@@ -58,17 +58,17 @@ resources:
             f.write(f"""
 - name: {resource_name}
   type: pull-request
+  check_every: 1m
   source:
-    repo: {repo}
+    repository: {repo}
     access_token: ((status-access-token))
-    every: true
 """)
         f.write("""
 resource_types:
 - name: pull-request
   type: docker-image
   source:
-    repository: jtarchie/pr
+    repository: ndrjng/concourse-github-pr-comment-resource
 """)
 
 
