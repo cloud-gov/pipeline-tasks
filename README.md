@@ -1,6 +1,6 @@
 ## cloud.gov common Concourse pipeline tasks
 
-This repo contains the source for some common concourse.ci pipeline tasks.
+This repo contains the source for some common concourse-ci.org pipeline tasks.
 
 To include in your pipeline, define a resource named `pipeline-tasks`:
 ```yaml
