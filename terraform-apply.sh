@@ -10,6 +10,7 @@ if [ "$TERRAFORM_ACTION" != "plan" ] && \
 fi
 
 TERRAFORM="${TERRAFORM_BIN:-terraform}"
+BASE="$(pwd)"
 
 DIR="terraform-templates"
 
@@ -26,9 +27,8 @@ if [ -n "${TEMPLATE_SUBDIR:-}" ]; then
   DIR="${DIR}/${TEMPLATE_SUBDIR}"
 fi
 
-${TERRAFORM} get \
-  -update \
-  "${DIR}"
+${TERRAFORM} -chdir=${DIR} get \
+  -update 
 
 init_args=(
   "-backend=true"
@@ -46,39 +46,36 @@ if [ -n "${TF_VAR_aws_secret_key:-}" ]; then
   init_args+=("-backend-config=secret_key=${TF_VAR_aws_secret_key}")
 fi
 
-${TERRAFORM} init \
-  "${init_args[@]}" \
-  "${DIR}"
+${TERRAFORM} -chdir="${DIR}" init \
+  "${init_args[@]}" 
 
 if [ "${TERRAFORM_ACTION}" = "plan" ]; then
-  ${TERRAFORM} "${TERRAFORM_ACTION}" \
+  ${TERRAFORM} -chdir="${DIR}" "${TERRAFORM_ACTION}" \
     -refresh=true \
     -input=false \
-    -out=./terraform-state/terraform.tfplan \
-    "${DIR}" \
-    > ./terraform-state/terraform-plan-output.txt
+    -out=${BASE}/terraform-state/terraform.tfplan \
+    > ${BASE}/terraform-state/terraform-plan-output.txt
   
-  cat ./terraform-state/terraform-plan-output.txt
+  cat ${BASE}/terraform-state/terraform-plan-output.txt
 
   # Write a sentinel value; pipelines can alert to slack if set using `text_file`
   # Ensure that slack notification resource detects text file
-  touch ./terraform-state/message.txt
-  if ! cat ./terraform-state/terraform-plan-output.txt | grep 'No changes.' ; then
-    echo "sentinel" > ./terraform-state/message.txt
+  touch ${BASE}/terraform-state/message.txt
+  if ! cat ${BASE}/terraform-state/terraform-plan-output.txt | grep 'No changes.' ; then
+    echo "sentinel" > ${BASE}/terraform-state/message.txt
   fi
 else
   # run apply twice to work around bugs like this
   # https://github.com/hashicorp/terraform/issues/7235
-  ${TERRAFORM} "${TERRAFORM_ACTION}" \
+  ${TERRAFORM} -chdir="${DIR}" "${TERRAFORM_ACTION}" \
     -refresh=true \
     -input=false \
-    -auto-approve \
-    "${DIR}"
-  ${TERRAFORM} "${TERRAFORM_ACTION}" \
+    -auto-approve
+  ${TERRAFORM} -chdir="${DIR}" "${TERRAFORM_ACTION}" \
     -refresh=true \
     -input=false \
-    -auto-approve \
-    "${DIR}"
+    -auto-approve
+
   if [ -n "${TF_VAR_aws_region:-}" ]; then
     export AWS_DEFAULT_REGION="${TF_VAR_aws_region}"
   fi
