@@ -17,20 +17,17 @@ if [ "${PREVENT_PREVENT_DESTROY:-}" == "true" ]; then
   find terraform-templates -type f -name "*.tf" -exec sed -i 's/prevent_destroy = true/prevent_destroy = false/g' {} +
 fi
 
-${TERRAFORM} get \
-  -update \
-  "${DIR}"
+${TERRAFORM} -chdir=${DIR} get \
+  -update 
 
-${TERRAFORM} init \
+${TERRAFORM} -chdir=${DIR} init \
   -backend=true \
   -backend-config="encrypt=true" \
   -backend-config="bucket=${S3_TFSTATE_BUCKET}" \
-  -backend-config="key=${STACK_NAME}/terraform.tfstate" \
-  "${DIR}"
+  -backend-config="key=${STACK_NAME}/terraform.tfstate" 
 
-terraform destroy \
+terraform -chdir=${DIR} destroy \
   -refresh=true \
-  -force \
-  "${DIR}"
+  -force
 
 aws s3 cp "s3://${S3_TFSTATE_BUCKET}/${STACK_NAME}/terraform.tfstate" terraform-state
