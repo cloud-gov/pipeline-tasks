@@ -27,3 +27,4 @@ resources:
   source:
     uri: https://github.com/18F/cg-pipeline-tasks
     branch: master
+    commit_verification_keys: ((cloud-gov-pgp-keys))
