@@ -36,6 +36,7 @@ init_args=(
   "-backend-config=bucket=${S3_TFSTATE_BUCKET}"
   "-backend-config=key=${STACK_NAME}/terraform.tfstate"
 )
+set +x
 if [ -n "${TF_VAR_aws_region:-}" ]; then
   init_args+=("-backend-config=region=${TF_VAR_aws_region}")
 fi
@@ -48,6 +49,7 @@ fi
 
 ${TERRAFORM} -chdir="${DIR}" init \
   "${init_args[@]}" 
+set -x
 
 if [ "${TERRAFORM_ACTION}" = "plan" ]; then
   ${TERRAFORM} -chdir="${DIR}" "${TERRAFORM_ACTION}" \
