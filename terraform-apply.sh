@@ -27,8 +27,7 @@ if [ -n "${TEMPLATE_SUBDIR:-}" ]; then
   DIR="${DIR}/${TEMPLATE_SUBDIR}"
 fi
 
-${TERRAFORM} -chdir=${DIR} get \
-  -update > terraform-get-output.txt
+${TERRAFORM} -chdir=${DIR} get -update > terraform-get-output.txt
 
 init_args=(
   "-backend=true"
