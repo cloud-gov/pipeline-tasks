@@ -1,0 +1,28 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    aws_access_key_id: ((ecr_aws_key))
+    aws_secret_access_key: ((ecr_aws_secret))
+    repository: general-task
+    aws_region: us-gov-west-1
+    tag: latest
+
+inputs:
+  - name: pipeline-tasks
+outputs:
+  - name: bosh-errand
+
+run:
+  path: pipeline-tasks/bosh-errand.sh
+
+params:
+  BOSH_ENVIRONMENT:
+  BOSH_CLIENT:
+  BOSH_CLIENT_SECRET:
+  BOSH_DEPLOYMENT:
+  BOSH_ERRAND:
+  BOSH_CA_CERT:
+  BOSH_FLAGS:
