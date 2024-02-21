@@ -58,7 +58,7 @@ if [ "${TERRAFORM_ACTION}" = "plan" ]; then
     > ${BASE}/terraform-state/terraform-plan-output.txt
   
   cat ${BASE}/terraform-state/terraform-plan-output.txt | \
-    grep --line-buffered --extended-regexp "Reading\.\.\.|Read complete after|Refreshing state\.\.\."
+    grep -v --line-buffered --extended-regexp "Reading\.\.\.|Read complete after|Refreshing state\.\.\."
 
   # Write a sentinel value; pipelines can alert to slack if set using `text_file`
   # Ensure that slack notification resource detects text file
