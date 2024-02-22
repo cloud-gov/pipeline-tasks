@@ -17,7 +17,9 @@ cat <<EOF > "config/final.yml"
 $FINAL_YML_CONTENT
 EOF
 fi
-go install go@1.21.0
+wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
+sudo tar -xvf go1.21.0.linux-amd64.tar.gz
+sudo mv go /usr/local
 go install github.com/cloudfoundry/bosh-s3cli@latest
 
 
