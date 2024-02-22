@@ -17,7 +17,7 @@ cat <<EOF > "config/final.yml"
 $FINAL_YML_CONTENT
 EOF
 fi
-go get go@1.21.0
+go install go@1.21.0
 go install github.com/cloudfoundry/bosh-s3cli@latest
 
 
