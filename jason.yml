@@ -1,0 +1,25 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    aws_access_key_id: ((ecr_aws_key))
+    aws_secret_access_key: ((ecr_aws_secret))
+    repository: general-task
+    aws_region: us-gov-west-1
+    tag: latest
+
+inputs:
+  - name: pipeline-tasks
+  - name: release-git-repo
+  - name: final-builds-dir-tarball
+  - name: releases-dir-tarball
+outputs:
+  - name: finalized-release
+run:
+  path: pipeline-tasks/jason.sh
+
+params:
+  PRIVATE_YML_CONTENT:
+  FINAL_YML_CONTENT:
