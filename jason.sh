@@ -18,8 +18,8 @@ $FINAL_YML_CONTENT
 EOF
 fi
 wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
-sudo tar -xvf go1.21.0.linux-amd64.tar.gz
-sudo mv go /usr/local
+tar -xvf go1.21.0.linux-amd64.tar.gz
+mv go /usr/local
 go install github.com/cloudfoundry/bosh-s3cli@latest
 
 
