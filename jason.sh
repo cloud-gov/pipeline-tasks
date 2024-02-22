@@ -17,6 +17,8 @@ cat <<EOF > "config/final.yml"
 $FINAL_YML_CONTENT
 EOF
 fi
+go get github.com/cloudfoundry/bosh-s3cli
+
 
 GODEBUG=http2debug=2
 bosh-cli -n create-release --force --final --tarball="./${RELEASE_NAME}.tgz"
