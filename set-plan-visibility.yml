@@ -14,6 +14,15 @@ inputs:
 - name: pipeline-tasks
 
 run:
-  path: pipeline-tasks/register-service-broker-and-set-plan-visibility.sh
-  args:
-    - -s
+  path: pipeline-tasks/set-plan-visibility.sh
+
+params:
+  CF_API_URL:
+  CF_USERNAME:
+  CF_PASSWORD:
+  CF_ORGANIZATION:
+  CF_SPACE:
+  BROKER_NAME:
+  AUTH_USER:
+  AUTH_PASS:
+  SERVICES:
