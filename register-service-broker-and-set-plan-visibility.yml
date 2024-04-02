@@ -1,0 +1,33 @@
+---
+######
+# Register a service broker and set identical plan availabilities for all the broker's plans
+# In the future, services should call this as `register-service-broker-and-set-plan-visibility.yml`
+# then we should unlink `register-service-broker.yml` for uses without messing with plan visibility
+######
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    aws_access_key_id: ((ecr_aws_key))
+    aws_secret_access_key: ((ecr_aws_secret))
+    repository: general-task
+    aws_region: us-gov-west-1
+    tag: latest
+
+inputs:
+- name: pipeline-tasks
+
+run:
+  path: pipeline-tasks/register-service-broker-and-set-plan-visibility.sh
+
+params:
+  CF_API_URL:
+  CF_USERNAME:
+  CF_PASSWORD:
+  CF_ORGANIZATION:
+  CF_SPACE:
+  BROKER_NAME:
+  AUTH_USER:
+  AUTH_PASS:
+  SERVICES:
