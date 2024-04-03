@@ -64,7 +64,7 @@ for SERVICE in $(echo "$SERVICES"); do
   if [ -n "${BROKER_NAME}" ]; then ARGS+=("-b" "${BROKER_NAME}"); fi
 
   # if we have a denylist, then we enable for all organizations EXCEPT those
-  # since CF doesn't suport this; enumerate all organizations, and filter out those on the blacklist
+  # since CF doesn't suport this; enumerate all organizations, and filter out those on the denylist
   # and enable for each remaining org
   if [ -n "${SERVICE_ORGANIZATION_DENYLIST:-}" ]; then
 
