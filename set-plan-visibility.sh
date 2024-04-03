@@ -63,12 +63,8 @@ for SERVICE in $(echo "$SERVICES"); do
   if [ -n "${SERVICE_PLAN}" ]; then ARGS+=("-p" "${SERVICE_PLAN}"); fi
   if [ -n "${BROKER_NAME}" ]; then ARGS+=("-b" "${BROKER_NAME}"); fi
 
-  # Must disable services prior to enabling, otherwise enable will fail if already exists
-  # https://github.com/cloudfoundry/cli/issues/939
-  cf disable-service-access "${ARGS[@]}"
-
-  # if we have a blacklist, then we enable for all organizations EXCEPT those
-  # since CF doesn't suport this; enumerate all organizations, and filter out those on the blacklist
+  # if we have a denylist, then we enable for all organizations EXCEPT those
+  # since CF doesn't suport this; enumerate all organizations, and filter out those on the denylist
   # and enable for each remaining org
   if [ -n "${SERVICE_ORGANIZATION_DENYLIST:-}" ]; then
 
