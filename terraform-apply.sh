@@ -70,11 +70,13 @@ else
   ${TERRAFORM} -chdir="${DIR}" "${TERRAFORM_ACTION}" \
     -refresh=true \
     -input=false \
-    -auto-approve
+    -auto-approve \
+    | grep -v --line-buffered --extended-regexp "Reading\.\.\.|Read complete after|Refreshing state\.\.\."
   ${TERRAFORM} -chdir="${DIR}" "${TERRAFORM_ACTION}" \
     -refresh=true \
     -input=false \
-    -auto-approve
+    -auto-approve \
+    | grep -v --line-buffered --extended-regexp "Reading\.\.\.|Read complete after|Refreshing state\.\.\."
 
   if [ -n "${TF_VAR_aws_region:-}" ]; then
     export AWS_DEFAULT_REGION="${TF_VAR_aws_region}"
