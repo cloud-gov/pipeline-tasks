@@ -1,7 +1,7 @@
 #!/bin/bash
 # vim: set ft=sh
 
-set -eux
+set -euxo pipefail
 
 if [ "$TERRAFORM_ACTION" != "plan" ] && \
     [ "$TERRAFORM_ACTION" != "apply" ]; then
