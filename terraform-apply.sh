@@ -47,7 +47,7 @@ if [ -n "${TF_VAR_aws_secret_key:-}" ]; then
 fi
 
 ${TERRAFORM} -chdir="${DIR}" init \
-  "${init_args[@]}" 
+  "${init_args[@]}"
 set -x
 
 if [ "${TERRAFORM_ACTION}" = "plan" ]; then
@@ -65,13 +65,6 @@ if [ "${TERRAFORM_ACTION}" = "plan" ]; then
     echo "sentinel" > ${BASE}/terraform-state/message.txt
   fi
 else
-  # run apply twice to work around bugs like this
-  # https://github.com/hashicorp/terraform/issues/7235
-  ${TERRAFORM} -chdir="${DIR}" "${TERRAFORM_ACTION}" \
-    -refresh=true \
-    -input=false \
-    -auto-approve \
-    | grep -v --line-buffered --extended-regexp "Reading\.\.\.|Read complete after|Refreshing state\.\.\."
   ${TERRAFORM} -chdir="${DIR}" "${TERRAFORM_ACTION}" \
     -refresh=true \
     -input=false \
