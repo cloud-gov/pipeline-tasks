@@ -10,6 +10,8 @@ fi
 
 SCRIPTPATH=$( cd $(dirname $0) ; pwd -P )
 
+env
+
 # Install required gems if not installed
 if [ -z $(gem list -i yaml) ]; then
   gem install yaml --no-ri --no-rdoc 2>&1 > /dev/null
