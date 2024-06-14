@@ -4,10 +4,10 @@ platform: linux
 image_resource:
   type: registry-image
   source:
-    aws_access_key_id: ((ecr_aws_key))
-    aws_secret_access_key: ((ecr_aws_secret))
+    aws_access_key_id: ((access_key_id))
+    aws_secret_access_key: ((secret_access_key))
     repository: general-task
-    aws_region: us-gov-west-1
+    aws_region: ((region))
     tag: latest
 
 inputs:
