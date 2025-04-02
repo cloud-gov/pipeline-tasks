@@ -3,7 +3,8 @@
 #############
 # Make plans available for a service broker
 # cli flags:
-#    -s    enable for all orgs _except_ sandbox and smoke tests
+#    -s    enable for all orgs EXCEPT sandbox and smoke tests
+#    -o    enable for ONLY sandbox and smoke tests orgs
 # environment config
 #    CF_API_URL                       API to auth against
 #    CF_USERNAME                      User to auth as. Needs to have cf admin permissions
@@ -27,19 +28,28 @@ cf target -o "${CF_ORGANIZATION}" -s "${CF_SPACE}"
 
 if [ -n "${SERVICE_ORGANIZATION_BLACKLIST:-}" ]; then
   echo "Use of SERVICE_ORGANIZATION_BLACKLIST is deprecated - use SERVICE_ORGANIZATION_DENYLIST instead" >&2
-  : ${SERVICE_ORGANIZATION_DENYLIST:${SERVICE_ORGANIZATION_BLACKLIST}}
+  : "${SERVICE_ORGANIZATION_DENYLIST:${SERVICE_ORGANIZATION_BLACKLIST}}"
 fi
 
-# Set sandbox orgs if flag is set for sandboxes
-while getopts ":s" opt; do
+
+while getopts ":so" opt; do
   case $opt in
     s)
+      # Set plan visibility to EXCLUDE sandboxes if -s flag is set
       ORGLIST=""
       for org in $(cf orgs | grep 'sandbox\|SMOKE\|CATS'); do
         ORGLIST+=${org}" "
       done
       export SERVICE_ORGANIZATION_DENYLIST=${ORGLIST}
       ;;
+    o)
+      # Set plan visibility to ONLY sandboxes if -o flag is set
+      ORGLIST=""
+      for org in $(cf orgs | grep 'sandbox\|SMOKE\|CATS'); do
+        ORGLIST+=${org}" "
+      done
+      export SERVICE_ORGANIZATION=${ORGLIST}
+      ;;      
     \?)
       echo "Invalid option: -$OPTARG" >&2
       ;;
@@ -53,12 +63,17 @@ if [ -n "${SERVICE_ORGANIZATION:-}" ] && [ -n "${SERVICE_ORGANIZATION_DENYLIST:-
   exit 1;
 fi
 
+if [ -z "${SERVICES:-}" ]; then
+  echo "SERVICES environment variable must be set"
+  exit 1;
+fi
+
 # Enable access to service plans
 # Services should be a set of "$name" or "$name:$plan" values, such as
 # "redis28-multinode mongodb30-multinode:persistent"
-for SERVICE in $(echo "$SERVICES"); do
-  SERVICE_NAME=$(echo "${SERVICE}:" | cut -d':' -f1)
-  SERVICE_PLAN=$(echo "${SERVICE}:" | cut -d':' -f2)
+for SERVICE in $SERVICES; do
+  SERVICE_NAME=$(echo "${SERVICE}:" | cut -d ':' -f1)
+  SERVICE_PLAN=$(echo "${SERVICE}:" | cut -d ':' -f2)
   ARGS=("${SERVICE_NAME}")
   if [ -n "${SERVICE_PLAN}" ]; then ARGS+=("-p" "${SERVICE_PLAN}"); fi
   if [ -n "${BROKER_NAME}" ]; then ARGS+=("-b" "${BROKER_NAME}"); fi
@@ -68,8 +83,8 @@ for SERVICE in $(echo "$SERVICES"); do
   # and enable for each remaining org
   if [ -n "${SERVICE_ORGANIZATION_DENYLIST:-}" ]; then
 
-    for org in `cf orgs | tail -n +4 | grep -Fvxf <(echo $SERVICE_ORGANIZATION_DENYLIST | tr " " "\n")`; do
-      cf enable-service-access "${ARGS[@]}" -o ${org}
+    for org in $(cf orgs | tail -n +4 | grep -Fvxf <(echo "$SERVICE_ORGANIZATION_DENYLIST" | tr " " "\n")); do
+      cf enable-service-access "${ARGS[@]}" -o "${org}"
     done
 
   else
@@ -77,8 +92,8 @@ for SERVICE in $(echo "$SERVICES"); do
     # and enable  for each of those orgs
     if [ -n "${SERVICE_ORGANIZATION:-}" ]; then
 
-      for org in `echo ${SERVICE_ORGANIZATION} | tr " " "\n"`; do
-        cf enable-service-access "${ARGS[@]}" -o ${org}
+      for org in $(echo "${SERVICE_ORGANIZATION}" | tr " " "\n"); do
+        cf enable-service-access "${ARGS[@]}" -o "${org}"
       done
 
     # if we don't have any kind of list, enable for all orgs
