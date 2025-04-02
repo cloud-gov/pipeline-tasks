@@ -11,7 +11,7 @@ image_resource:
     tag: latest
 
 inputs:
-- name: pipeline-tasks
+  - name: pipeline-tasks
 
 run:
   path: pipeline-tasks/register-service-broker-and-set-plan-visibility.sh
