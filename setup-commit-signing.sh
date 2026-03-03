@@ -71,11 +71,12 @@ echo "Ownertrust updated"
 gpg_secret_keyline=$(echo "$secret_keys" | grep "sec")
 
 IFS=":" read -ra gpg_secret_key_details <<< "$gpg_secret_keyline"
-gpg_secret_keyid="${gpg_secret_key_details[5]}"
+gpg_secret_keyid="${gpg_secret_key_details[4]}"
 # git setup
 git config --global user.email "$GPG_EMAIL"
 git config --global user.name "$GPG_USERNAME"
 git config --global commit.gpgSign true
+git config --global user.signingkey "$gpg_secret_keyid"
 echo "Git configured"
 
 # labeled as "grp"
